@@ -26,16 +26,22 @@
              * @returns {Object}
              */
             namespace: function (tokens) {
-                if (typeof tokens !== 'string') {
+                var tokens = typeof tokens !== 'undefined' ? tokens : null,
+                    scope = this,
+                    i, token, error, length;
+
+                if (tokens === null) {
                     return this;
                 }
 
-                var tokens = tokens.split('.'),
-                    length = tokens.length,
-                    scope = this,
-                    i, token;
+                if (typeof tokens !== 'string') {
+                    error = 'namespace: expecting string as first argument';
+                    throw new TypeError(error);
+                }
 
-                for (i = 0; i < length; i++) {
+                tokens = tokens.split('.');
+
+                for (i = 0, length = tokens.length; i < length; i++) {
                     token = tokens[i];
 
                     if (scope[token]) {
@@ -89,22 +95,15 @@
     this.Fusion = new Fusion();
 }).call(this);
 
+/*
 //I'll turn these into proper unit tests next (and make them much more readable)
 //These describe the behavior established so far by the Fusion global
-console.log(typeof Fusion === 'object');
-console.log(Fusion.namespace() === Fusion);
-console.log(Fusion.namespace('One') && !!Fusion.One);
-console.log(Fusion.namespace('SevenThree\n') && !!Fusion['SevenThree\n']);
-console.log(Fusion.namespace(123) && !Fusion[123]);
 console.log(Fusion.namespace('One.Two.Three') && !!Fusion.One.Two.Three);
 console.log(typeof Fusion.createNamespace() === 'object');
 console.log(!Fusion.createNamespace().One);
-
-//because the Fusion global is created via the `new` keyword, make sure
-//it has a constructor property to mimc all native ECMA5 Object prototypes.
-console.log(typeof Fusion.constructor === 'function');
 
 console.log(Fusion.isFusionNamespace(Fusion.createNamespace()));
 console.log(Fusion.isFusionNamespace({}) === false);
 console.log(Fusion.isFusionNamespace(Object.create(Fusion.constructor.prototype)));
 console.log(Fusion.constructor.prototype.isPrototypeOf(Fusion.createNamespace()));
+*/
