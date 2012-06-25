@@ -94,16 +94,3 @@
     //add to global scope
     this.Fusion = new Fusion();
 }).call(this);
-
-/*
-//I'll turn these into proper unit tests next (and make them much more readable)
-//These describe the behavior established so far by the Fusion global
-console.log(Fusion.namespace('One.Two.Three') && !!Fusion.One.Two.Three);
-console.log(typeof Fusion.createNamespace() === 'object');
-console.log(!Fusion.createNamespace().One);
-
-console.log(Fusion.isFusionNamespace(Fusion.createNamespace()));
-console.log(Fusion.isFusionNamespace({}) === false);
-console.log(Fusion.isFusionNamespace(Object.create(Fusion.constructor.prototype)));
-console.log(Fusion.constructor.prototype.isPrototypeOf(Fusion.createNamespace()));
-*/
