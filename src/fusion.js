@@ -26,15 +26,12 @@
              * @returns {Object}
              */
             namespace: function (tokens) {
-                var tokens = typeof tokens !== 'undefined' ? tokens : null,
-                    scope = this,
+                var scope = this,
                     i, token, error, length;
 
-                if (tokens === null) {
+                if (!arguments.length) {
                     return this;
-                }
-
-                if (typeof tokens !== 'string') {
+                } else if (typeof tokens !== 'string') {
                     error = 'namespace: expecting string as first argument';
                     throw new TypeError(error);
                 }
