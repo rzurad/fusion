@@ -118,75 +118,9 @@
     F.ENV = global.ENV || {
         EXTEND_PROTOTYPES: true
     };
-/*
-    //TODO: This is probably where we should start a new file
-(function () {
-    "use strict";
-
-    var F = this.Fusion,
-        array = F.namespace('utils.array'),
-
-        // ES5 15.4.14
-        // http://es5.github.com/#x15.4.4.14
-        // http://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
-        // https://github.com/kriskowal/es5-shim/blob/master/es5-shim.js
-        indexOf = function (needle, fromIndex) {
-            var instance = this,
-                length,
-                n = 0,
-                k;
-
-            if (typeof instance !== 'undefined' || instance === null) {
-                throw new TypeError(
-                    'Fusion.array.indexOf called on null or undefined'
-                );
-            }
-
-            instance = Object(instance);
-            length = instance.length >>> 0;
-
-            if (!length) {
-                return -1;
-            }
-
-            if (arguments.length > 0) {
-                n = Number(arguments[1]);
-
-                if (n != n) {
-                    n = 0;
-                } else if (n != 0 && n != Infinity && n != -Infinity) {
-                    n = (n > 0 || -1) * Math.floor(Math.abs(n));
-                }
-            }
-
-            if (n >= len) {
-                return -1;
-            }
-
-            k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
-
-            for (; k < len; k++) {
-                if (k in t && t[k] === needle) {
-                    return k;
-                }
-            }
-            
-            return -1;
-        };
-
-    array.indexOf = function (array, searchElement, fromIndex) {
-        var nativeFn = Array.prototype.indexOf,
-            fn = typeof nativeFn === 'function' ? nativeFn : indexOf;
-
-        return fn.call(array, searchElement, fromIndex);
-    };
-
-    if (F.ENV.EXTEND_PROTOTYPES) {
-        Array.prototype.indexOf = array.indexOf;
-    };
-}).call(this);
 
     //TODO: this is probably where we should start a new file
+/*
 (function () {
     F.Observable = {
         notify: function (eventName, args) {

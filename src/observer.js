@@ -1,16 +1,8 @@
-/**
- * Look to for interface:
- * Gang of 4 Book
- * Domain Driven Design Book
- * eve.js
- * TDDJS
- * Diaz book
- */
 (function () {
     "use strict";
 
     var F = this.Fusion,
-        fusionPrototype = F.constructor.prototype,
+        prototype = F.constructor.prototype,
         indexOf;
 
     if (typeof this.Fusion === 'undefined') {
@@ -90,40 +82,114 @@
          */
         isError: function () {
             return !!this._isError;
+        },
+
+        /**
+         * Clears the error state.
+         */
+        clearError: function () {
+            this._error = null;
+            this._isError = false;
+        }
+    };
+
+    Observable = {
+        notify: function (eventName, args) {
+            var observers = this._observers,
+                current,
+                length,
+                i,
+                listeners;
+
+            if (!observers) {
+                return;
+            }
+
+            listeners = observers[eventName];
+
+            if (!listeners) {
+                return;
+            }
+
+            for (i = 0, length = listeners.length; i < length; i++) {
+                current = listeners[i];
+
+                if (current && typeof current.notify === 'function') {
+                    try {
+                        current.notify(args);
+                        current.clearError();
+                    } catch (e) {
+                        F.logger.error(
+                            'Observable.notify: Subscription callback',
+                            current,
+                            'threw an Error. Skipping'
+                        );
+
+                        current.setError(e);
+                    }
+                } else {
+                    F.logger.warn(
+                        'Observable.notify:',
+                        current,
+                        'is not a callable function. Skipping.'
+                    );
+                }
+            }
+        },
+        
+        attach: function (eventName, callback, context) {
+            //TODO: validate arguments
+            var observers = this._observers = this._observers || {},
+                listeners = observers[eventName] || [],
+                subscription = new Subscription(eventName, callback, context);
+
+            listeners.push(subscription);
+
+            return subscription;
+        },
+
+        detach: function (subscription) {
+            var observers = this._observers,
+                listeners,
+                index;
+
+            if (!observers || !subscription) {
+                return false;
+            }
+
+            listeners = observers[subscription.eventName];
+            index = indexOf.call(listeners, subscription);
+
+            if (index === -1) {
+                return false;
+            }
+
+            observers.splice(index, 1);
+
+            return true;
+        },
+
+        hasObserver: function (subscription) {
+            var observers = this._observers,
+                name = subscription.name,
+                i,
+                length;
+
+            if (!observers || !(name in observers)) {
+                return false;
+            }
+
+            return indexOf.call(listeners, subscription) !== -1;
         }
     };
 
     //add to Fusion prototype
-    fusionPrototype.Subscription = Subscription;
+    prototype.Subscription = Subscription;
+    prototype.Observable = Observable;
 
 /*
-    Subject = Publisher = Observable = {
-        on: function (eventName, callback, {
-            context: this,
-        })
-        attach: function (typeof observer === 'function'),
-        detatch: function (typeof observer === 'function' || Subscription),
-        notify: function ('event-name[:before, :after]', eObj)
-    };
-
-    Observer = Subscriber = EventTarget = Subscription = {
-        callback: function () {},
-        eventName: 'eventName',
-        eventModifier: 
-    } || function (EventFacade e) {}
-    //do we need observables and observers? (subscription object?)
     //changing z-index
     //getting a list of all event subscriptions (hand them the gun?)
-    Fusion.Observable = {
-        publish: function ('eventName:before', { opts }) {},
-        hasObserver: function (callback, obj?) {},
-        subscribe: function ('eventName:after', callback, context),
-        on: ^
-        publishes: function ('eventName', { opts }
-        delegate: function ('eventName', callback, target, context) {},
-        unsubscribe: function ('eventName', callback, context) {}
-        off: ^
-    };
 
     /* YUI had performance issues when initializing all the observer
      * events and attribute properties on instance creation, which
