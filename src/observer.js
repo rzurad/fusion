@@ -2,10 +2,10 @@
     "use strict";
 
     var F = this.Fusion,
-        prototype = F.constructor.prototype,
+        fProto,
         indexOf;
 
-    if (typeof this.Fusion === 'undefined') {
+    if (typeof F === 'undefined') {
         if (console && typeof console.log === 'function') {
             console.log('Fusion namespace not defined. Exiting');
         }
@@ -14,6 +14,7 @@
     }
 
     indexOf = F.array.indexOf;
+    fProto = F.constructor.prototype;
 
     /**
      * Subscription object. Common object returned by Observables
@@ -93,17 +94,19 @@
         }
     };
 
-    Observable = {
+    function Observable() {
+        this._observers = {};
+    }
+
+    Observable.prototype = {
+        constructor: Observable,
+
         notify: function (eventName, args) {
             var observers = this._observers,
                 current,
                 length,
                 i,
                 listeners;
-
-            if (!observers) {
-                return;
-            }
 
             listeners = observers[eventName];
 
@@ -184,24 +187,23 @@
     };
 
     //add to Fusion prototype
-    prototype.Subscription = Subscription;
-    prototype.Observable = Observable;
+    fProto.Subscription = Subscription;
+    fProto.Observable = Observable;
+
+    //mixin function to make any object observable
+    fProto.makeObservable = function (obj) {
+        if (!obj || typeof obj !== 'object') {
+            throw new TypeError('argument must be an object');
+        }
+
+        F.mix(obj, Observable.prototype);
+        Observable.call(obj);
+    };
 
 /*
     //changing z-index
     //getting a list of all event subscriptions (hand them the gun?)
 
-    /* YUI had performance issues when initializing all the observer
-     * events and attribute properties on instance creation, which
-     * is why they deferred them. no other library I can think of right
-     * now does this. What's the merit of doing so? Was it just YUI
-     * cruft issues or is there real merit in doing this?
-     *
-     * It pretty much needs to be a mixin, since we can't do multiple
-     * inheritance. augment on creation? augment on first call?
-     * manage everything through closures and not actual inheritance?
-     * does that even make sense?
-     *
      * Look into require and node packages. See if you can leverage
      * this for building, testing, readability
      *
