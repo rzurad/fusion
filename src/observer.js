@@ -18,21 +18,21 @@
 
     /**
      * Subscription object. Common object returned by Observables
-     * after attaching a Subscriber that provides an interface to
+     * after attaching a observer function that provides an interface to
      * notify its observer and check if the notification callback
      * threw an error.
      *
      * @Object  Subscription
-     * @param   {String}    eventName - key of the event
+     * @param   {String}    name - key of the event
      * @param   {Function}  callback - function to execute whenever event
-     *                                 with the given eventName is fired
+     *                                 with the given name is fired
      * @param   {Object}    context - context to execute callback in
      */
-    function Subscription(eventName, callback, context) {
+    function Subscription(name, callback, context) {
         var error;
 
-        if (typeof eventName !== 'string') {
-            error = 'Subscription requires string eventName';
+        if (typeof name !== 'string') {
+            error = 'Subscription requires string name';
             throw new TypeError(error);
         }
 
@@ -41,7 +41,7 @@
             throw new TypeError(error);
         }
 
-        this.eventName = eventName;
+        this.name = name;
         this.callback = callback;
 
         if (context) {
@@ -58,39 +58,7 @@
          * @param   {Object}    args - object of parameters to pass to Observer
          */
         notify: function (args) {
-            if (this.context) {
-                this.callback.call(context, args);
-            } else {
-                this.callback(args);
-            }
-        },
-
-        /**
-         * Set this Subscription to be marked as error
-         *
-         * @param   {Error}     e - Error object from the generated Exception
-         */
-        setError: function (e) {
-            this._isError = true;
-            this._error = e;
-        },
-
-        /**
-         * Returns true if an Error was thrown the last time this 
-         * Subscription is called.
-         *
-         * @return  {Boolean}
-         */
-        isError: function () {
-            return !!this._isError;
-        },
-
-        /**
-         * Clears the error state.
-         */
-        clearError: function () {
-            this._error = null;
-            this._isError = false;
+            this.callback.call(this.context, args);
         }
     };
 
@@ -101,14 +69,12 @@
     Observable.prototype = {
         constructor: Observable,
 
-        notify: function (eventName, args) {
+        notify: function (name, args) {
             var observers = this._observers,
                 current,
                 length,
                 i,
-                listeners;
-
-            listeners = observers[eventName];
+                listeners = observers[name];
 
             if (!listeners) {
                 return;
@@ -117,10 +83,10 @@
             for (i = 0, length = listeners.length; i < length; i++) {
                 current = listeners[i];
 
-                if (current && typeof current.notify === 'function') {
+                if (current instanceof Subscription) {
                     try {
-                        current.notify(args);
-                        current.clearError();
+                        current.notify({ args: args });
+                        current.error = null;
                     } catch (e) {
                         F.logger.error(
                             'Observable.notify: Subscription callback',
@@ -128,7 +94,7 @@
                             'threw an Error. Skipping'
                         );
 
-                        current.setError(e);
+                        current.error = e;
                     }
                 } else {
                     F.logger.warn(
@@ -140,49 +106,71 @@
             }
         },
         
-        attach: function (eventName, callback, context) {
-            //TODO: validate arguments
-            var observers = this._observers = this._observers || {},
-                listeners = observers[eventName] || [],
-                subscription = new Subscription(eventName, callback, context);
+        attach: function (name, callback, context) {
+            var observers = this._observers,
+                listeners = observers[name] || (observers[name] = []),
+                context = context || this,
+                subscription = new Subscription(name, callback, context);
 
             listeners.push(subscription);
 
             return subscription;
         },
 
-        detach: function (subscription) {
+        detach: function (arg) {
             var observers = this._observers,
                 listeners,
+                subscription = arg instanceof Subscription ? arg : void 0,
+                str = typeof arg === 'string' ? arg : void 0,
                 index;
 
-            if (!observers || !subscription) {
-                return false;
+            if (!str && !subscription) {
+                //no args detaches everything
+                observers = {};
+
+                return true;
+            } else if (str) {
+                //string arg detaches all with that name
+                if (!observers[str] || !observers[str].length) {
+                    return false;
+                }
+
+                observers[str] = [];
+
+                return true;
+            } else if (subscription) {
+                //subscription arg detaches just that subscription
+                listeners = observers[subscription.name];
+                index = indexOf(listeners, subscription);
+
+                if (index === -1) {
+                    return false;
+                }
+
+                listeners.splice(index, 1);
+
+                return true;
             }
 
-            listeners = observers[subscription.eventName];
-            index = indexOf.call(listeners, subscription);
-
-            if (index === -1) {
-                return false;
-            }
-
-            observers.splice(index, 1);
-
-            return true;
+            return false;
         },
 
         hasObserver: function (subscription) {
-            var observers = this._observers,
-                name = subscription.name,
-                i,
-                length;
-
-            if (!observers || !(name in observers)) {
+            if (!subscription) {
                 return false;
             }
 
-            return indexOf.call(listeners, subscription) !== -1;
+            var observers = this._observers,
+                name = subscription.name,
+                listeners = observers[name],
+                i,
+                length;
+
+            if (!listeners || !listeners.length) {
+                return false;
+            }
+
+            return indexOf(listeners, subscription) !== -1;
         }
     };
 
@@ -192,20 +180,24 @@
 
     //mixin function to make any object observable
     fProto.makeObservable = function (obj) {
+        var key,
+            proto;
+
         if (!obj || typeof obj !== 'object') {
             throw new TypeError('argument must be an object');
         }
 
-        F.mix(obj, Observable.prototype);
+        proto = Observable.prototype;
+
+        //TODO: replace with a framework `mix` function
+        for (key in proto) {
+            if (proto.hasOwnProperty(key)) {
+                obj[key] = proto[key];
+            }
+        }
+
         Observable.call(obj);
+
+        return obj;
     };
-
-/*
-    //changing z-index
-    //getting a list of all event subscriptions (hand them the gun?)
-
-     * Look into require and node packages. See if you can leverage
-     * this for building, testing, readability
-     *
-     */
 }).call(this);

@@ -18,6 +18,7 @@
     // ES5 15.4.14
     // http://es5.github.com/#x15.4.4.14
     // http://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
+    // TODO: This shim is broken
     indexOf = function (needle, fromIndex) {
         var instance = this,
             length,
@@ -70,6 +71,6 @@
     };
 
     if (F.ENV.EXTEND_PROTOTYPES) {
-        Array.prototype.indexOf = indexOf;
+        Array.prototype.indexOf = Array.prototype.indexOf || indexOf;
     }
 }).call(this);

@@ -87,7 +87,7 @@
              */
             NOOP: NOOP,
 
-            Logger: global.console || {
+            logger: global.console || {
                 log: NOOP,
                 warn: NOOP,
                 error: NOOP,
