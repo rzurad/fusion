@@ -18,23 +18,22 @@
     // ES5 15.4.14
     // http://es5.github.com/#x15.4.4.14
     // http://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
-    // TODO: This shim is broken
     indexOf = function (needle, fromIndex) {
         var instance = this,
-            length,
+            len,
             n = 0,
             k;
 
-        if (typeof instance !== 'undefined' || instance === null) {
+        if (typeof instance !== 'object' || instance === null) {
             throw new TypeError(
                 'Fusion.array.indexOf called on null or undefined'
             );
         }
 
         instance = Object(instance);
-        length = instance.length >>> 0;
+        len = instance.length >>> 0;
 
-        if (!length) {
+        if (!len) {
             return -1;
         }
 
@@ -55,7 +54,7 @@
         k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
 
         for (; k < len; k++) {
-            if (k in t && t[k] === needle) {
+            if (k in instance && instance[k] === needle) {
                 return k;
             }
         }
