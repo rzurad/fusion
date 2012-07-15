@@ -2,6 +2,7 @@
     "use strict";
 
     var F = this.Fusion,
+        Observable,
         fProto,
         indexOf;
 
@@ -62,15 +63,9 @@
         }
     };
 
-    function Observable() {
-        this._observers = {};
-    }
-
-    Observable.prototype = {
-        constructor: Observable,
-
+    Observable = {
         notify: function (name, args) {
-            var observers = this._observers,
+            var observers = this._observers = this._observers || {},
                 current,
                 length,
                 i,
@@ -107,7 +102,7 @@
         },
         
         attach: function (name, callback, context) {
-            var observers = this._observers,
+            var observers = this._observers = this._observers || {},
                 listeners = observers[name] || (observers[name] = []),
                 context = context || this,
                 subscription = new Subscription(name, callback, context);
@@ -118,7 +113,7 @@
         },
 
         detach: function (arg) {
-            var observers = this._observers,
+            var observers = this._observers = this._observers || {},
                 listeners,
                 subscription = arg instanceof Subscription ? arg : void 0,
                 str = typeof arg === 'string' ? arg : void 0,
@@ -126,7 +121,7 @@
 
             if (!str && !subscription) {
                 //no args detaches everything
-                observers = {};
+                this._observers = {};
 
                 return true;
             } else if (str) {
@@ -160,7 +155,7 @@
                 return false;
             }
 
-            var observers = this._observers,
+            var observers = this._observers = this._observers || {},
                 name = subscription.name,
                 listeners = observers[name],
                 i,
@@ -180,23 +175,18 @@
 
     //mixin function to make any object observable
     fProto.makeObservable = function (obj) {
-        var key,
-            proto;
+        var key;
 
         if (!obj || typeof obj !== 'object') {
             throw new TypeError('argument must be an object');
         }
 
-        proto = Observable.prototype;
-
         //TODO: replace with a framework `mix` function
-        for (key in proto) {
-            if (proto.hasOwnProperty(key)) {
-                obj[key] = proto[key];
+        for (key in Observable) {
+            if (Observable.hasOwnProperty(key)) {
+                obj[key] = Observable[key];
             }
         }
-
-        Observable.call(obj);
 
         return obj;
     };

@@ -8,7 +8,7 @@
 
     buster.testCase('Observer', {
         setUp: function () {
-            this.observable = new Fusion.Observable();
+            this.observable = Fusion.makeObservable({});
             this.subscription = new Fusion.Subscription('foo', NOOP);
         },
 
@@ -226,8 +226,8 @@
         },
 
         hasObserver: function () {
-            var o1 = new Fusion.Observable(),
-                o2 = new Fusion.Observable(),
+            var o1 = Fusion.makeObservable({}),
+                o2 = Fusion.makeObservable({}),
                 sub1 = o1.attach('foo', NOOP),
                 sub2 = o2.attach('bar', NOOP);
 
