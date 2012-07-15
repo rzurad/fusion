@@ -40,3 +40,15 @@ Then:
 ```
 buster test
 ````
+
+immediate todo:
+- refactor Fusion namespace to lower case. only proper Objects and Constructors should be uppercase
+- refactor Fusion to be an Object, not a constructor function
+- add wildcard events
+- add before/after events
+- f.mix
+
+not-so-immediate todo:
+- ajax
+- mvc
+- dom selector interface
