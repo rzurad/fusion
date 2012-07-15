@@ -65,7 +65,7 @@
 
     Observable = {
         notify: function (name, args) {
-            var observers = this._observers = this._observers || {},
+            var observers = this._observers || (this._observers = {}),
                 current,
                 length,
                 i,
@@ -102,7 +102,7 @@
         },
         
         attach: function (name, callback, context) {
-            var observers = this._observers = this._observers || {},
+            var observers = this._observers || (this._observers = {}),
                 listeners = observers[name] || (observers[name] = []),
                 context = context || this,
                 subscription = new Subscription(name, callback, context);
@@ -113,7 +113,7 @@
         },
 
         detach: function (arg) {
-            var observers = this._observers = this._observers || {},
+            var observers = this._observers || (this._observers = {}),
                 listeners,
                 subscription = arg instanceof Subscription ? arg : void 0,
                 str = typeof arg === 'string' ? arg : void 0,
@@ -155,7 +155,7 @@
                 return false;
             }
 
-            var observers = this._observers = this._observers || {},
+            var observers = this._observers || (this._observers = {}),
                 name = subscription.name,
                 listeners = observers[name],
                 i,
