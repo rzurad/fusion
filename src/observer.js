@@ -43,10 +43,7 @@
 
         this.name = name;
         this.callback = callback;
-
-        if (context) {
-            this.context = context;
-        }
+        this.context = context;
     }
 
     Subscription.prototype = {
@@ -74,30 +71,32 @@
                 return;
             }
 
-            for (i = 0, length = listeners.length; i < length; i++) {
-                current = listeners[i];
-
-                if (current instanceof Subscription) {
+            //beware that there is nothing preventing a subscriber from
+            //calling detach in response to an event, meaning the listeners
+            //array can change while we are iterating. this forEach protects
+            //against that.
+            forEach(listeners, function (subscription) {
+                if (subscription instanceof Subscription) {
                     try {
-                        current.notify({ args: args });
-                        current.error = null;
+                        subscription.notify({ args: args });
+                        subscription.error = null;
                     } catch (e) {
                         F.logger.error(
                             'Observable.notify: Subscription callback',
-                            current,
+                            subscription,
                             'threw an Error. Skipping'
                         );
 
-                        current.error = e;
+                        subscription.error = e;
                     }
                 } else {
                     F.logger.warn(
                         'Observable.notify:',
-                        current,
+                        subscription,
                         'is not a callable function. Skipping.'
                     );
                 }
-            }
+            });
         },
         
         attach: function (name, callback, context) {
@@ -109,6 +108,20 @@
             listeners.push(subscription);
 
             return subscription;
+        },
+
+        once: function (name, callback, context) {
+            var instance = this,
+                context = arguments.length === 3 ? context : this,
+                fn = function () {
+                    var result = callback.apply(context, arguments);
+
+                    instance.detach(sub);
+                    return result;
+                },
+                sub = instance.attach(name, fn, context);
+
+            return sub;
         },
 
         detach: function (arg) {

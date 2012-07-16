@@ -36,6 +36,7 @@
                 called = false,
                 sub = o.attach('foo', function () { throw new Error(); });
 
+            Fusion.logger.log('expecting Subscription notify callback error');
             o.attach('foo', function () { called = true; });
             o.notify('foo');
 
@@ -61,6 +62,37 @@
             });
 
             o.notify('bar', true);
+        },
+
+        'notify default context is the observable': function () {
+            var o = this.observable;
+
+            o.attach('foo', function (e) {
+                assert.same(this, o);
+            });
+
+            o.notify('foo');
+        },
+
+        once: function () {
+            var o = this.observable,
+                obj = {},
+                foo = [];
+
+            o.once('foo', function () {
+                assert.same(this, o);
+                foo.push(true);
+            });
+
+            o.once('foo', function () {
+                assert.same(this, obj);
+                foo.push(true);
+            }, obj);
+
+            o.notify('foo');
+            o.notify('foo');
+
+            assert.same(foo.length, 2);
         },
 
         notifyWithContext: function () {
