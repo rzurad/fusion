@@ -42,7 +42,6 @@ buster test
 ````
 
 immediate todo:
-- refactor Fusion namespace to lower case. only proper Objects and Constructors should be uppercase
 - refactor Fusion to be an Object, not a constructor function
 - add wildcard events
 - f.mix

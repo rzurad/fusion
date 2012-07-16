@@ -2,26 +2,26 @@
     "use strict";
 
     var buster = this.buster || require('buster'),
-        Fusion = this.Fusion || require('fusion'),
+        fusion = this.fusion || require('fusion'),
 
         NOOP = function () {};
 
     buster.testCase('Observer', {
         setUp: function () {
-            this.observable = Fusion.makeObservable({});
-            this.subscription = new Fusion.Subscription('foo', NOOP);
+            this.observable = fusion.makeObservable({});
+            this.subscription = new fusion.Subscription('foo', NOOP);
         },
 
         attachReturnsSubscription: function () {
             var sub = this.observable.attach('foo', NOOP);
 
-            assert(sub instanceof Fusion.Subscription);
+            assert(sub instanceof fusion.Subscription);
         },
 
         subscriptionInterface: function () {
             var obj = {},
                 name = 'foo',
-                sub = new Fusion.Subscription(name, NOOP, obj);
+                sub = new fusion.Subscription(name, NOOP, obj);
 
             assert.same(sub.name, name);
             assert.same(sub.callback, NOOP);
@@ -36,7 +36,7 @@
                 called = false,
                 sub = o.attach('foo', function () { throw new Error(); });
 
-            Fusion.logger.log('expecting Subscription notify callback error');
+            fusion.logger.log('expecting Subscription notify callback error');
             o.attach('foo', function () { called = true; });
             o.notify('foo');
 
@@ -120,8 +120,8 @@
         },
 
         makeObservable: function () {
-            var obj = Fusion.makeObservable({ foo: 'bar' }),
-                obj2 = Fusion.makeObservable({ fizz: 'buzz' }),
+            var obj = fusion.makeObservable({ foo: 'bar' }),
+                obj2 = fusion.makeObservable({ fizz: 'buzz' }),
                 foo = [],
                 fn = function () {
                     foo.push(true);
@@ -145,19 +145,19 @@
 
         makeObservableBadArgs: function () {
             assert.exception(function () {
-                Fusion.makeObservable(123);
+                fusion.makeObservable(123);
             });
 
             assert.exception(function () {
-                Fusion.makeObservable(true);
+                fusion.makeObservable(true);
             });
 
             assert.exception(function () {
-                Fusion.makeObservable(NaN);
+                fusion.makeObservable(NaN);
             });
 
             assert.exception(function () {
-                Fusion.makeObservable(void 0);
+                fusion.makeObservable(void 0);
             });
         },
 
@@ -264,8 +264,8 @@
         },
 
         hasObserver: function () {
-            var o1 = Fusion.makeObservable({}),
-                o2 = Fusion.makeObservable({}),
+            var o1 = fusion.makeObservable({}),
+                o2 = fusion.makeObservable({}),
                 sub1 = o1.attach('foo', NOOP),
                 sub2 = o2.attach('bar', NOOP);
 

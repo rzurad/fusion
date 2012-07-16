@@ -5,7 +5,7 @@
 
     var global = this,
         NOOP = function () { return this; }, 
-        F,
+        f,
         prototype = {
             //Follow in the footsteps of all native ECMA5 Objects
             constructor: Fusion,
@@ -97,25 +97,25 @@
 
     Fusion.prototype = prototype;
 
-    F = new Fusion();
+    f = new Fusion();
 
-    if (typeof global.Fusion !== 'undefined') {
-        F.Logger.warn(
+    if (typeof global.fusion !== 'undefined') {
+        f.logger.warn(
             'Fusion is already defined in this scope and will be clobbered.'
         );
     }
 
-    global.Fusion = F;
+    global.fusion = f;
 
     //static
-    F.VERSION = '-∞';
-    F.toString = function () {
-        return 'Fusion.js: VERSION ' + F.VERSION;
+    f.VERSION = '-∞';
+    f.toString = function () {
+        return 'Fusion.js: VERSION ' + f.VERSION;
     };
 
     //configurable settings the bootstapper will use to determine how
     //it should initialize itself
-    F.ENV = global.FUSION_ENV || {
+    f.ENV = global.FUSION_ENV || {
         SHIM_NATIVE: true,
         EXTEND_NATIVE: true,
     };

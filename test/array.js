@@ -2,10 +2,10 @@
     "use strict";
 
     var global = this,
-        Fusion = global.Fusion || require('fusion'),
+        fusion = global.fusion || require('fusion'),
         buster = global.buster || require('buster'),
-        array = Fusion.array,
-        object = Fusion.object;
+        array = fusion.array,
+        object = fusion.object;
 
     //test cases from https://github.com/kriskowal/es5-shim
     buster.testCase('array isArray tests', {

@@ -1,20 +1,20 @@
 (function () {
     "use strict";
 
-    if (typeof this.Fusion === 'undefined') {
+    if (typeof this.fusion === 'undefined') {
         if (console && typeof console.log === 'function') {
-            console.log('Fusion namespace not defined. Exiting');
+            console.log('fusion namespace not defined. Exiting');
         }
 
         return;
     }
 
-    var F = this.Fusion,
+    var f = this.fusion,
         Observable,
-        fProto = F.constructor.prototype,
-        keys = F.object.keys,
-        forEach = F.array.forEach,
-        indexOf = F.array.indexOf;
+        fProto = f.constructor.prototype,
+        keys = f.object.keys,
+        forEach = f.array.forEach,
+        indexOf = f.array.indexOf;
 
     /**
      * Subscription object. Common object returned by Observables
@@ -81,7 +81,7 @@
                         subscription.notify({ args: args });
                         subscription.error = null;
                     } catch (e) {
-                        F.logger.error(
+                        f.logger.error(
                             'Observable.notify: Subscription callback',
                             subscription,
                             'threw an Error. Skipping'
@@ -90,7 +90,7 @@
                         subscription.error = e;
                     }
                 } else {
-                    F.logger.warn(
+                    f.logger.warn(
                         'Observable.notify:',
                         subscription,
                         'is not a callable function. Skipping.'
@@ -194,7 +194,7 @@
         }
     };
 
-    //add to Fusion prototype
+    //add to fusion prototype
     fProto.Subscription = Subscription;
     fProto.Observable = Observable;
 

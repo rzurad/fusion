@@ -1,16 +1,16 @@
 (function () {
     "use strict";
 
-    if (typeof this.Fusion === 'undefined') {
+    if (typeof this.fusion === 'undefined') {
         if (console && typeof console.log === 'function') {
-            console.log('Fusion namespace not defined. Exiting');
+            console.log('fusion namespace not defined. Exiting');
         }
 
         return;
     }
 
-    var F = this.Fusion,
-        object = F.namespace('object'),
+    var f = this.fusion,
+        object = f.namespace('object'),
 
         _hasDontEnumBug = true,
         _dontEnums = [
@@ -169,7 +169,7 @@
         return eq(a, b, []);
     };
 
-    if (F.ENV.SHIM_NATIVE) {
+    if (f.ENV.SHIM_NATIVE) {
         if (!Object.keys) {
             Object.keys = object.keys;
         }

@@ -1,10 +1,10 @@
 (function () {
     "use strict";
 
-    var Fusion = this.Fusion || require('fusion'),
+    var fusion = this.fusion || require('fusion'),
         buster = this.buster || require('buster'),
-        object = Fusion.object,
-        array = Fusion.array;
+        object = fusion.object,
+        array = fusion.array;
 
     //test cases from https://github.com/kriskowal/es5-shim/blob/master/tests/spec/s-object.js
     buster.testCase('object keys tests', {

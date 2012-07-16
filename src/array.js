@@ -1,16 +1,16 @@
 (function () {
     "use strict";
 
-    if (typeof this.Fusion === 'undefined') {
+    if (typeof this.fusion === 'undefined') {
         if (console && typeof console.log === 'function') {
-            console.log('Fusion namespace not defined. Exiting');
+            console.log('fusion namespace not defined. Exiting');
         }
 
         return;
     }
 
-    var F = this.Fusion,
-        array = F.namespace('array'),
+    var f = this.fusion,
+        array = f.namespace('array'),
         _toString = Object.prototype.toString,
 
         isArray = Array.isArray || function (obj) {
@@ -103,7 +103,7 @@
 
     array.isArray = isArray;
 
-    if (F.ENV.SHIM_NATIVE) {
+    if (f.ENV.SHIM_NATIVE) {
         if (!Array.isArray) {
             Array.isArray = isArray;
         }
