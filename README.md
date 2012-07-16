@@ -43,6 +43,9 @@ buster test
 
 immediate todo:
 - refactor Fusion to be an Object, not a constructor function
+- set up and get node tests passing
+- add func.isFunction
+- add native extensions onto native objects in an es5 compliant way
 - add wildcard events
 - f.mix
 
