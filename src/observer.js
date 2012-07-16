@@ -1,12 +1,7 @@
 (function () {
     "use strict";
 
-    var F = this.Fusion,
-        Observable,
-        fProto,
-        indexOf;
-
-    if (typeof F === 'undefined') {
+    if (typeof this.Fusion === 'undefined') {
         if (console && typeof console.log === 'function') {
             console.log('Fusion namespace not defined. Exiting');
         }
@@ -14,8 +9,12 @@
         return;
     }
 
-    indexOf = F.array.indexOf;
-    fProto = F.constructor.prototype;
+    var F = this.Fusion,
+        Observable,
+        fProto = F.constructor.prototype,
+        keys = F.object.keys,
+        forEach = F.array.forEach,
+        indexOf = F.array.indexOf;
 
     /**
      * Subscription object. Common object returned by Observables
@@ -117,10 +116,18 @@
                 listeners,
                 subscription = arg instanceof Subscription ? arg : void 0,
                 str = typeof arg === 'string' ? arg : void 0,
-                index;
+                index, key;
 
             if (!str && !subscription) {
                 //no args detaches everything
+                forEach(keys(observers), function (key) {
+                    forEach(observers[key], function (sub) {
+                        if (sub instanceof Subscription) {
+                            sub.detached = true;
+                        }
+                    });
+                });
+
                 this._observers = {};
 
                 return true;
@@ -129,6 +136,10 @@
                 if (!observers[str] || !observers[str].length) {
                     return false;
                 }
+
+                forEach(observers[str], function (sub) {
+                    sub.detached = true;
+                });
 
                 observers[str] = [];
 
@@ -143,6 +154,7 @@
                 }
 
                 listeners.splice(index, 1);
+                subscription.detached = true;
 
                 return true;
             }

@@ -1,4 +1,4 @@
-fuelcell
+Fusion
 ========
 
 Javascript framework supporting domain driven design
@@ -44,6 +44,7 @@ buster test
 immediate todo:
 - refactor Fusion namespace to lower case. only proper Objects and Constructors should be uppercase
 - refactor Fusion to be an Object, not a constructor function
+- add once handler
 - add wildcard events
 - f.mix
 
@@ -51,3 +52,19 @@ not-so-immediate todo:
 - ajax
 - mvc
 - dom selector interface
+
+currently shimmed functions:
+- Array.isArray
+- Array.prototype.indexOf
+- Array.prototype.forEach
+- Object.keys
+
+will probably need to be shimmed
+- Array.prototype.map
+- Array.prototype.reduce
+- Array.prototype.reduceRight
+- Array.prototype.filter
+- Array.prototype.every
+- Array.prototype.some
+- Array.prototype.lastIndexOf
+- Function.prototype.bind

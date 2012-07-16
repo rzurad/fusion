@@ -115,7 +115,8 @@
 
     //configurable settings the bootstapper will use to determine how
     //it should initialize itself
-    F.ENV = global.ENV || {
-        EXTEND_PROTOTYPES: true
+    F.ENV = global.FUSION_ENV || {
+        SHIM_NATIVE: true,
+        EXTEND_NATIVE: true,
     };
 }).call(this);

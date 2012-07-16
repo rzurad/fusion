@@ -140,6 +140,8 @@
 
             sub = o.attach('foo', fn);
 
+            refute(sub.detached);
+
             o.attach('foo', fn);
             o.attach('foo', fn);
             o.attach('bar', function () { bar.push(true); });
@@ -147,6 +149,7 @@
             o.notify('foo');
             o.notify('bar');
             
+            assert(sub.detached);
             assert.same(foo.length, 2);
             assert.same(bar.length, 1);
         },
@@ -154,12 +157,14 @@
         detachAll: function () {
             var o = this.observable,
                 foo = [],
-                bar = [];
+                bar = [],
+                sub1 = o.attach('foo', function () { foo.push(true); }),
+                sub2 = o.attach('bar', function () { bar.push(true); });
 
-            o.attach('foo', function () { foo.push(true); });
-            o.attach('bar', function () { bar.push(true); });
             o.detach();
 
+            assert(sub1.detached);
+            assert(sub2.detached);
             assert.same(foo.length, 0);
             assert.same(bar.length, 0);
         },
@@ -170,10 +175,9 @@
                 bar = [],
                 fn = function () {
                     foo.push(true);
-                };
-
-            o.attach('foo', fn);
-            o.attach('bar', function () { bar.push(true); });
+                },
+                sub1 = o.attach('foo', fn),
+                sub2 = o.attach('bar', function () { bar.push(true); });
 
             o.notify('foo');
             o.notify('bar');
@@ -186,6 +190,8 @@
             o.notify('foo');
             o.notify('bar');
 
+            assert(sub1.detached);
+            refute(sub2.detached);
             assert.same(foo.length, 1);
             assert.same(bar.length, 2);
         },
