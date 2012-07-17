@@ -44,9 +44,12 @@ buster test
 immediate todo:
 - refactor Fusion to be an Object, not a constructor function
 - set up and get node tests passing
+- start documenting api (dr.js)
 - add func.isFunction
 - add native extensions onto native objects in an es5 compliant way
 - add wildcard events
+- add a more complex detach-while-notifying test
+- add env.js test file that tests shims/extensions/normalizations
 - f.mix
 
 not-so-immediate todo:
