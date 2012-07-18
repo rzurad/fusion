@@ -11,23 +11,15 @@ Fusion is currently using [buster.js](http://busterjs.org) for in-browser
 unit testing.
 
 ```
-# install node
+# install node, npm, and buster
 git clone git://github.com/joyent/node.git
 cd node
-git checkout v0.8.1
+git checkout v0.8
 ./configure
 make
 sudo make install
-
-# npm v1.1.35 both doesn't build in FreeBSD 8.2 and contains a serious bug
-# that prevents it from installing buster. To work around, first install npm:
-curl http://npmjs.org/install.sh | sudo sh
-cd /usr/local/lib/node_modules/npm
-
-# then apply this patch:
-# https://github.com/mintplant/npm/commit/ce5896b36d3129815c7bbbdb1abf5a495b185eac
-# you do not need to rebuild npm for the patch to take effect. Simply run:
-sudo npm install -g buster
+sudo npm install -g npm@1.1.43
+sudo npm install -g buster@0.6.2
 ```
 
 Once buster is installed, cd to the root of the fusion directory and:
@@ -50,12 +42,23 @@ immediate todo:
 - add wildcard events
 - add a more complex detach-while-notifying test
 - add env.js test file that tests shims/extensions/normalizations
-- f.mix
+- f.mix/f.merge/f.decorate
 
 not-so-immediate todo:
 - ajax
 - mvc
 - dom selector interface
+- fix this test case for isEqual that randomly fails depending on the time you run the test
+```
+Finished in 0.066s
+Chrome 20.0.1132.57, OS X 10.6 (Snow Leopard): .........F.................                                                      
+Failure: Chrome 20.0.1132.57, OS X 10.6 (Snow Leopard) object isEqual tests dates
+    [refute] Expected true to be falsy
+        at Object.<anonymous> (http://localhost:1111/sessions/c1ef47dc-8005-43e3-9b08-acd3447c7a0f/resources/test/object.js:146:13)
+
+        2 test cases, 27 tests, 122 assertions, 1 failure, 0 errors, 0 timeouts
+        Finished in 0.053s
+```
 
 currently shimmed functions:
 - Array.isArray
