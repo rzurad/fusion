@@ -34,6 +34,7 @@ buster test
 ````
 
 immediate todo:
+- test cases for Object polyfills
 - refactor Fusion to be an Object, not a constructor function
 - set up and get node tests passing
 - start documenting api (dr.js)
@@ -65,6 +66,9 @@ currently shimmed functions:
 - Array.prototype.indexOf
 - Array.prototype.forEach
 - Object.keys
+- Object.defineProperties
+- Object.defineProperty
+- Object.create
 
 will probably need to be shimmed
 - Array.prototype.map

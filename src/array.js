@@ -11,16 +11,20 @@
 
     var f = this.fusion,
         array = f.namespace('array'),
+
+        POLYFILL_NATIVE = f.CONFIG.POLYFILL_NATIVE,
+        USE_NATIVE = f.CONFIG.USE_NATIVE,
+
         _toString = Object.prototype.toString,
 
-        isArray = Array.isArray || function (obj) {
+        isArray = (USE_NATIVE && Array.isArray) || function (obj) {
             return _toString(obj) === '[object Array]';
         },
 
         // ES5 15.4.4.14
         // http://es5.github.com/#x15.4.4.14
         // http://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
-        indexOf = Array.prototype.indexOf || function (needle, fromIndex) {
+        indexOf = (USE_NATIVE && Array.prototype.indexOf) || function (needle, fromIndex) {
             var instance = this,
                 len,
                 n = 0,
@@ -65,7 +69,7 @@
         },
 
         // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/forEach
-        forEach = Array.prototype.forEach || function (fn, context) {
+        forEach = (USE_NATIVE && Array.prototype.forEach) || function (fn, context) {
             if (typeof this !== 'object' || this === null) {
                 throw new TypeError(
                     'Fusion.array.forEach called on null or undefined'
@@ -103,17 +107,9 @@
 
     array.isArray = isArray;
 
-    if (f.ENV.SHIM_NATIVE) {
-        if (!Array.isArray) {
-            Array.isArray = isArray;
-        }
-
-        if (!Array.prototype.indexOf) {
-            Array.prototype.indexOf = indexOf;
-        }
-
-        if (!Array.prototype.forEach) {
-            Array.prototype.forEach = forEach;
-        }
+    if (POLYFILL_NATIVE) {
+        !Array.isArray && (Array.isArray = isArray);
+        !Array.prototype.indexOf && (Array.prototype.indexOf = indexOf);
+        !Array.prototype.forEach && (Array.prototype.forEach = forEach);
     }
 }).call(this);

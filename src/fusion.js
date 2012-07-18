@@ -115,8 +115,17 @@
 
     //configurable settings the bootstapper will use to determine how
     //it should initialize itself
-    f.ENV = global.FUSION_ENV || {
-        SHIM_NATIVE: true,
-        EXTEND_NATIVE: true,
+    //TODO: merge these two objects, so that they don't need to overwrite
+    //all defaults to overwrite one
+    f.CONFIG = global.FUSION_CONFIG || {
+        //for compatability with any library that modifies native prototypes
+        USE_NATIVE: true,
+
+        //polyfill missing native functions with shims that follow the es5
+        //spec as best they can
+        POLYFILL_NATIVE: true,
+
+        //add custom functions specific to fusion onto native objects
+        EXTEND_NATIVE: true
     };
 }).call(this);
