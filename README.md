@@ -1,14 +1,8 @@
-Fusion
-========
-
-Javascript framework supporting domain driven design
-
-
 Testing
 =======
 
 Fusion is currently using [buster.js](http://busterjs.org) for in-browser
-unit testing.
+unit testing. The current supported development env is FreeBSD 8.2
 
 ```
 # install node, npm, and buster
@@ -35,6 +29,8 @@ buster test
 
 immediate todo:
 - test cases for Object polyfills
+- reorganize buster tests to make running individual tests easier
+- make sure object.isEqual can handle objects created with our object.create shim
 - refactor Fusion to be an Object, not a constructor function
 - set up and get node tests passing
 - start documenting api (dr.js)
@@ -43,7 +39,10 @@ immediate todo:
 - add wildcard events
 - add a more complex detach-while-notifying test
 - add env.js test file that tests shims/extensions/normalizations
-- f.mix/f.merge/f.decorate
+- f.mixin
+- f.merge
+- f.decorate
+- f.clone
 
 not-so-immediate todo:
 - ajax

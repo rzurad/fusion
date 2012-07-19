@@ -18,7 +18,7 @@
         _toString = Object.prototype.toString,
 
         isArray = (USE_NATIVE && Array.isArray) || function (obj) {
-            return _toString(obj) === '[object Array]';
+            return _toString.call(obj) === '[object Array]';
         },
 
         // ES5 15.4.4.14
@@ -76,9 +76,9 @@
                 );
             }
 
-            if (_toString.call(callback) !== '[object Function]') {
+            if (_toString.call(fn) !== '[object Function]') {
                 throw new TypeError(
-                    'Fusion.array.forEach callback is not a function'
+                    'Fusion.array.forEach argument is not a function'
                 );
             }
 
@@ -90,7 +90,7 @@
             while (i < len) {
                 if (i in obj) {
                     val = obj[i];
-                    callback.call(context, val, i, obj);
+                    fn.call(context, val, i, obj);
                 }
 
                 i++;

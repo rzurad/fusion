@@ -105,7 +105,7 @@
             i,
             dontEnum;
 
-        if (invaid) {
+        if (invalid) {
             throw new TypeError('Fusion.object.keys called on non-object');
         }
 
@@ -138,8 +138,66 @@
                               !_buggyDefineProperty &&
                               Object.defineProperty
                             ) || function (obj, prop, desc) {
-        //TODO: this!
-        return Object.defineProperty(obj, prop, desc);
+        return Object.defineProperty;
+        /*
+        var badObj = (typeof obj !== 'object' && typeof obj !== 'function')
+                     || obj === null,
+            badDesc = (typeof desc !== 'object' && typeof desc !== 'function')
+                     || desc === null;
+
+        if (badObj) {
+            throw new TypeError(ERR_NON_OBJECT_TARGET + obj);
+        }
+
+        if (badDesc) {
+            throw new TypeError(ERR_NON_OBJECT_DESCRIPTOR + obj);
+        }
+
+        // attempt to use the real defineProperty for IE8's DOM elements.
+        if (_buggyDefineProperty) {
+            try {
+                return _buggyDefineProperty.call(Object, obj, prop, desc);
+            } finally {}
+        }
+
+        // if it's a data property
+        if (object.hasOwnProperty(desc, 'value')) {
+            if (supportsAccessors && (lookupGetter(obj, prop) || lookupSetter(obj, prop))) {
+                // as accessors are supported only on engines implementing
+                // `__proto__` we can safely override `__proto__` while
+                // defining a property to make sure that we don't hit an
+                // inherited accessor
+                var prototype = obj.__proto__;
+                obj.__proto__ = Object.prototype;
+
+                // deleting a property anyway since getter/setter may be
+                // defined on object itself
+                delete obj[prop];
+
+                obj[prop] = desc.value;
+
+                // setting original `__proto__` back
+                obj.__proto__ = prototye;
+            } else {
+                obj[prop] = desc.value;
+            }
+        } else {
+            if (!supportsAccessors) {
+                throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
+            }
+
+            //if we get this far, then we can use getters and setters
+            if (object.hasOwnProperty(desc, 'get')) {
+                defineGetter(obj, prop, desc.get);
+            }
+
+            if (object.hasOwnProperty(obj, 'set')) {
+                defineSetter(obj, prop, desc.set);
+            }
+        }
+
+        return obj;
+        */
     };
 
 
