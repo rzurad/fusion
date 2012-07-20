@@ -126,6 +126,6 @@
         POLYFILL_NATIVE: true,
 
         //add custom functions specific to fusion onto native objects
-        EXTEND_NATIVE: true
+        EXTEND_NATIVE: false
     };
 }).call(this);

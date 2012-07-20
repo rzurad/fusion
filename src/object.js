@@ -16,6 +16,8 @@
         EXTEND_NATIVE = f.CONFIG.EXTEND_NATIVE,
         USE_NATIVE = f.CONFIG.USE_NATIVE,
 
+        __PROTO__ = '__proto__',
+
         ERR_NON_OBJECT_DESCRIPTOR = 'Property description must be an object: ',
         ERR_NON_OBJECT_TARGET = 'Object.defineProperty called on non-object: ',
         ERR_ACCESSORS_NOT_SUPPORTED = 'getters & setters can not be defined ' +
@@ -110,7 +112,7 @@
         }
 
         for (name in obj) {
-            if (object.hasOwnProperty(obj, name)) {
+            if (object.hasOwnProperty(obj, name) && name !== __PROTO__) {
                 keys.push(name);
             }
         }
@@ -207,7 +209,7 @@
     object.defineProperties = (USE_NATIVE && Object.defineProperties) ||
                               function (obj, props) {
         for (var prop in props) {
-            if (object.hasOwnProperty(props, prop) && prop !== '__proto__') {
+            if (object.hasOwnProperty(props, prop) && prop !== __PROTO__) {
                 object.defineProperty(obj, prop, props[prop]);
             }
         }
@@ -225,7 +227,8 @@
             Type;
 
         if (proto === null) {
-            obj = { __proto__: null };
+            obj = {};
+            obj[__PROTO__] = null;
         } else {
             // only null, objects, and functions can be prototypes
             if (typeof proto !== 'object' && typeof proto !== 'function') {
@@ -242,7 +245,7 @@
             // the `__proto__` property, so we will be setting one manually
             // so that our shim of `Object.getPrototypeOf` will work as
             // expected with other objects creating using this shim
-            obj.__proto__ = proto;
+            obj[__PROTO__] = proto;
         }
 
         if (props !== void 0) {
@@ -369,8 +372,12 @@
                 return false;
             }
 
+            if (a[__PROTO__] != a[__PROTO__]) {
+                return false;
+            }
+
             // Deep compare objects.
-            for (var key in a) {
+            for (key in a) {
                 if (object.hasOwnProperty(a, key)) {
                     // Count the expected number of properties.
                     size++;
@@ -413,7 +420,7 @@
             Object.defineProperties = object.defineProperties
         );
         !Object.keys && (Object.keys = object.keys);
-        !Object.create (Object.create = object.create);
+        !Object.create && (Object.create = object.create);
 
         if (!Object.defineProperty && _buggyDefineProperty) {
             Object.defineProperty = object.defineProperty;

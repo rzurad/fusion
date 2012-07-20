@@ -6,7 +6,7 @@
             'create': Object.create,
             'keys': Object.keys,
             'defineProperties': Object.defineProperties,
-            'defineProperty': Object.definyProperty
+            'defineProperty': Object.defineProperty
         },
         'Array': {
             'isArray': Array.isArray,

@@ -6,7 +6,6 @@
         object = fusion.object,
         array = fusion.array;
 
-    //test cases from https://github.com/kriskowal/es5-shim/blob/master/tests/spec/s-object.js
     buster.testCase('object keys tests', {
         setUp: function () {
             var obj = {

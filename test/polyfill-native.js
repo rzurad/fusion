@@ -16,15 +16,23 @@
                 assert(false, 'CONFIG not loaded');
             }
 
-            //TODO: needs more recursion
-            forEach(keys(_expected), function (k) {
-                if (_expected[k] === 'prototype') {
-                    forEach(keys(_expected.prototype), function (pk) {
-                        assert.same(_expected[k][pk], global[k][pk]);
-                    });
-                } else {
-                    assert.same(_expected[k], global[k]);
-                }
+            // this is where i make JavaScript cosplay as Lisp
+            forEach(keys(_expected), function (native) {
+                forEach(keys(_expected[native]), function (k) {
+                    if (k === 'prototype') {
+                        forEach(keys(_expected[native][k]), function (pk) {
+                            assert.same(
+                                _expected[native][k][pk],
+                                global[native][k][pk]
+                            );
+                        });
+                    } else {
+                        assert.same(
+                            _expected[native][k],
+                            global[native][k]
+                        );
+                    }
+                });
             });
         }
     });

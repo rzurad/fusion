@@ -35,7 +35,6 @@ config['!USE_NATIVE'] = {
     ]
 };
 
-/*
 // test that the native objects are not modified when EXTEND_NATIVE = false
 config['!EXTEND_NATIVE'] = {
     extends: 'Base',
@@ -45,7 +44,6 @@ config['!EXTEND_NATIVE'] = {
         'test/extend-native.js'
     ]
 };
-*/
 
 // test that the native objects are not modified when POLYFILL_NATIVE = false
 config['!POLYFILL_NATIVE'] = {

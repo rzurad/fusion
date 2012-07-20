@@ -29,7 +29,6 @@ buster test
 
 immediate todo:
 - test cases for Object polyfills
-- reorganize buster tests to make running individual tests easier
 - make sure object.isEqual can handle objects created with our object.create shim
 - refactor Fusion to be an Object, not a constructor function
 - set up and get node tests passing
@@ -38,7 +37,6 @@ immediate todo:
 - add native extensions onto native objects in an es5 compliant way
 - add wildcard events
 - add a more complex detach-while-notifying test
-- add env.js test file that tests shims/extensions/normalizations
 - f.mixin
 - f.merge
 - f.decorate
@@ -78,3 +76,4 @@ will probably need to be shimmed
 - Array.prototype.some
 - Array.prototype.lastIndexOf
 - Function.prototype.bind
+- String.prototype.trim
