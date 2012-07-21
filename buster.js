@@ -5,14 +5,16 @@ config['Default'] = {
     env: 'browser',
     sources: [
         'src/fusion.js',
-        'src/array.js',
         'src/object.js',
+        'src/array.js',
+        'src/func.js',
         'src/observer.js'
     ],
     tests: [
         'test/fusion.js',
-        'test/array.js',
         'test/object.js',
+        'test/array.js',
+        'test/func.js',
         'test/observer.js'
     ]
 };
