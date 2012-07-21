@@ -8,11 +8,11 @@ unit testing. The current supported development env is FreeBSD 8.2
 # install node, npm, and buster
 git clone git://github.com/joyent/node.git
 cd node
-git checkout v0.8
+git checkout v0.8.3
 ./configure
 make
 sudo make install
-sudo npm install -g npm@1.1.43
+sudo npm install -g npm@1.1.44
 sudo npm install -g buster@0.6.2
 ```
 
