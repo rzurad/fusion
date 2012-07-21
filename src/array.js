@@ -10,7 +10,8 @@
     }
 
     var f = this.fusion,
-        array = f.namespace('array'),
+        fProto = f.constructor.prototype,
+        array = {},
 
         POLYFILL_NATIVE = f.CONFIG.POLYFILL_NATIVE,
         USE_NATIVE = f.CONFIG.USE_NATIVE,
@@ -106,6 +107,8 @@
     };
 
     array.isArray = isArray;
+
+    fProto.array = array;
 
     if (POLYFILL_NATIVE) {
         !Array.isArray && (Array.isArray = isArray);

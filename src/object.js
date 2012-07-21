@@ -10,7 +10,8 @@
     }
 
     var f = this.fusion,
-        object = f.namespace('object'),
+        fProto = f.constructor.prototype,
+        object = {},
 
         POLYFILL_NATIVE = f.CONFIG.POLYFILL_NATIVE,
         EXTEND_NATIVE = f.CONFIG.EXTEND_NATIVE,
@@ -428,7 +429,7 @@
         return eq(a, b, []);
     };
 
-
+    fProto.object = object;
 
     if (POLYFILL_NATIVE) {
         !Object.defineProperties && (

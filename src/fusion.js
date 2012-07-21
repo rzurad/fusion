@@ -97,6 +97,12 @@
 
     Fusion.prototype = prototype;
 
+    //TODO: It would be nice if Fusion wasn't a constructor function and was
+    //instead just an ordinary object that the exposed object `fusion` would
+    //simply prototype. All the object shims are not loaded until after this
+    //file, so we can't quite do that just yet, since it requires
+    //`Object.create` to be supported, which we cant assume since our shim
+    //can't possibly be loaded before this
     f = new Fusion();
 
     if (typeof global.fusion !== 'undefined') {
