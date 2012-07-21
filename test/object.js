@@ -275,6 +275,86 @@
             refute(object.isEqual({ x: 1, y: undefined }, { x: 1, z: 2 }));
         },
 
+        'objects through fusion.object.create': function () {
+            var configSimple1 = {
+                    so: {
+                        value: { say: 'we all' },
+                        writable: true,
+                        enumerable: true,
+                        configurable: true
+                    }
+                },
+                configSimple2 = {
+                    so: {
+                        value: { say: 'lords of kobol' },
+                        writable: true,
+                        enumerable: true,
+                        configurable: true
+                    }
+                },
+                configSimple1NoEnum = {
+                    blackbird: {
+                        value: true,
+                        writable: true,
+                        enumerable: false,
+                        configurable: true
+                    },
+                    so: {
+                        value: { say: 'we all' },
+                        writable: true,
+                        enumerable: true,
+                        configurable: true
+                    }
+                },
+                configSimple2NoEnum = {
+                    blackbird: {
+                        value: true,
+                        writable: true,
+                        enumerable: false,
+                        configurable: true
+                    },
+                    so: {
+                        value: { say: 'lords of kobol' },
+                        writable: true,
+                        enumerable: true,
+                        configurable: true
+                    }
+                },
+                proto, obj1, obj2, obj3;
+
+            proto = null;
+            obj1 = object.create(proto, configSimple1);
+            obj2 = object.create(proto, configSimple1);
+            obj3 = object.create(proto, configSimple2);
+
+            assert(object.isEqual(obj1, obj2));
+            refute(object.isEqual(obj1, obj3));
+            refute(obj1 === obj2); //TODO: this belongs in an object.create test
+
+            proto = Object.prototype;
+            obj1 = object.create(proto, configSimple1);
+            obj2 = object.create(proto, configSimple1);
+            obj3 = object.create(proto, configSimple2);
+
+            assert(object.isEqual(obj1, obj2));
+            refute(object.isEqual(obj1, obj3));
+
+            obj1 = object.create({ so: 'what' }, configSimple1);
+            obj2 = object.create({ so: 'buttons' }, configSimple1);
+            obj3 = object.create({ so: 'what' }, configSimple2);
+
+            assert(object.isEqual(obj1, obj2));
+            refute(object.isEqual(obj1, obj3));
+
+            proto = { happenedBefore: true };
+            obj1 = object.create(proto, configSimple1);
+            obj2 = object.create(proto, configSimple1NoEnum);
+            obj3 = object.create(proto, configSimple2NoEnum);
+
+            assert(object.isEqual(obj1, obj2));
+            refute(object.isEqual(obj1, obj3));
+        },
+
         'nested objects': function () {
             // `A` contains nested objects and arrays.
             var a = {

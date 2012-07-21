@@ -60,14 +60,10 @@
 
         // will tell us if we need to do more work in Object.keys shim because
         // of an IE bug
-        _hasDontEnumBug = (function () {
-            // test if properties that shadow DontEnum are enumerated (IE bug)
-            for (var key in { 'toString': null }) {
-                return false;
-            }
+        _hasDontEnumBug = !({
+            'toString': null
+        }).propertyIsEnumerable('toString'),
 
-            return true;
-        }()),
         _dontEnums = [
             'toString',
             'toLocaleString',

@@ -29,7 +29,6 @@ buster test
 
 immediate todo:
 - test cases for Object polyfills
-- make sure object.isEqual can handle objects created with our object.create shim
 - refactor Fusion to be an Object, not a constructor function
 - set up and get node tests passing
 - start documenting api (dr.js)
