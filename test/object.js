@@ -20,6 +20,20 @@
         }
     });
 
+    buster.testCase('stashed object.hasOwnProperty tests', {
+        exists: function () {
+            var proto = { type: 'battlestar' },
+                obj = object.create(proto);
+
+            obj.name = 'galactica';
+
+            assert(object.hasOwnProperty(obj, 'name'));
+            assert.same(obj.type, 'battlestar');
+
+            refute(object.hasOwnProperty(obj, 'type'));
+        }
+    });
+
     buster.testCase('object keys tests', {
         setUp: function () {
             var obj = {
