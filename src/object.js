@@ -23,6 +23,15 @@
         ERR_ACCESSORS_NOT_SUPPORTED = 'getters & setters can not be defined ' +
                                       'on this javascript engine',
 
+        _call = Function.prototype.call,
+        _objProto = Object.prototype,
+
+        _supportsAccessors = object.hasOwnProperty(_objProto, '__defineGetter__'),
+        _defineGetter,
+        _defineSetter,
+        _lookupGetter,
+        _lookupSetter,
+
         // will tell us if the current runtime's Object.defineProperty
         // is buggy and we should shim it anyway (Webkit/IE8 standards mode)
         // Designed by hax <https://hax.github.com>
@@ -73,6 +82,13 @@
         _toString = Object.prototype.toString,
         _dontEnumsLength = _dontEnums.length;
 
+
+    if (_supportsAccessors) {
+        _defineGetter = call.bind(_objProto.__defineGetter__);
+        _defineSetter = call.bind(_objProto.__defineSetter__);
+        _lookupGetter = call.bind(_objProto.__lookupGetter__);
+        _lookupSetter = call.bind(_objProto.__lookupSetter__);
+    }
 
     // in the world of fusion, we say it's ok if you want to modify
     // the toString of an object and have it do something different.
@@ -140,12 +156,13 @@
                               !_buggyDefineProperty &&
                               Object.defineProperty
                             ) || function (obj, prop, desc) {
-        return Object.defineProperty;
-        /*
-        var badObj = (typeof obj !== 'object' && typeof obj !== 'function')
-                     || obj === null,
-            badDesc = (typeof desc !== 'object' && typeof desc !== 'function')
-                     || desc === null;
+
+        var badObj  = ( typeof obj !== 'object' &&
+                        typeof obj !== 'function'
+                      ) || obj === null,
+            badDesc = ( typeof desc !== 'object' &&
+                        typeof desc !== 'function'
+                      ) || desc === null;
 
         if (badObj) {
             throw new TypeError(ERR_NON_OBJECT_TARGET + obj);
@@ -164,7 +181,10 @@
 
         // if it's a data property
         if (object.hasOwnProperty(desc, 'value')) {
-            if (supportsAccessors && (lookupGetter(obj, prop) || lookupSetter(obj, prop))) {
+            if (supportsAccessors && ( lookupGetter(obj, prop) || 
+                                       lookupSetter(obj, prop)
+                                     )) {
+
                 // as accessors are supported only on engines implementing
                 // `__proto__` we can safely override `__proto__` while
                 // defining a property to make sure that we don't hit an
@@ -199,7 +219,6 @@
         }
 
         return obj;
-        */
     };
 
 
@@ -428,6 +447,11 @@
     }
 
     if (EXTEND_NATIVE) {
-        Object.isEqual = object.isEqual;
+        object.defineProperty(Object, 'isEqual', {
+            value: object.isEqual,
+            writeable: true,
+            enumerable: false,
+            configurable: true
+        });
     }
 }).call(this);

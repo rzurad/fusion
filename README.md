@@ -34,7 +34,6 @@ immediate todo:
 - set up and get node tests passing
 - start documenting api (dr.js)
 - add func.isFunction
-- add native extensions onto native objects in an es5 compliant way
 - add wildcard events
 - add a more complex detach-while-notifying test
 - f.mixin
