@@ -7,7 +7,7 @@
 
     buster.testCase('Making sure fusion behaves when EXTEND_NATIVE is false', {
         check: function () {
-            assert.defined(Object.isEqual);
+            refute.defined(Object.isEqual);
         }
     });
 }).call(this);

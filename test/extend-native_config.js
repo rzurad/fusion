@@ -6,6 +6,6 @@
     };
 
     this.FUSION_CONFIG = {
-        EXTEND_NATIVE: true
+        EXTEND_NATIVE: false
     };
 }).call(this);
