@@ -6,6 +6,20 @@
         object = fusion.object,
         array = fusion.array;
 
+    buster.testCase('stashed object.toString tests', {
+        'exists and returns string': function () {
+            assert.same(object.toString({}), '[object Object]');
+            assert.same(object.toString([]), '[object Array]');
+            assert.same(object.toString(true), '[object Boolean]');
+            assert.same(object.toString(123), '[object Number]');
+            assert.same(object.toString(/\s/), '[object RegExp]');
+            assert.same(object.toString(null), '[object Null]');
+            assert.same(object.toString(void 0), '[object Undefined]');
+            assert.same(object.toString(function () {}), '[object Function]');
+            assert.same(object.toString('asdf'), '[object String]');
+        }
+    });
+
     buster.testCase('object keys tests', {
         setUp: function () {
             var obj = {

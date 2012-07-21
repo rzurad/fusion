@@ -74,8 +74,8 @@
             'constructor'
         ],
 
-        _hasOwnProperty = Object.prototype.hasOwnProperty,
-        _toString = Object.prototype.toString,
+        _hasOwnProperty = _objProto.hasOwnProperty,
+        _toString = _objProto.toString,
         _dontEnumsLength = _dontEnums.length;
 
 
