@@ -46,17 +46,6 @@ not-so-immediate todo:
 - ajax
 - mvc
 - dom selector interface
-- fix this test case for isEqual that randomly fails depending on the time you run the test
-```
-Finished in 0.066s
-Chrome 20.0.1132.57, OS X 10.6 (Snow Leopard): .........F.................                                                      
-Failure: Chrome 20.0.1132.57, OS X 10.6 (Snow Leopard) object isEqual tests dates
-    [refute] Expected true to be falsy
-        at Object.<anonymous> (http://localhost:1111/sessions/c1ef47dc-8005-43e3-9b08-acd3447c7a0f/resources/test/object.js:146:13)
-
-        2 test cases, 27 tests, 122 assertions, 1 failure, 0 errors, 0 timeouts
-        Finished in 0.053s
-```
 
 currently shimmed functions:
 - Array.isArray

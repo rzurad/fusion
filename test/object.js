@@ -488,6 +488,9 @@
 
             assert(object.isEqual(date_json, date));
             assert(object.isEqual(date, date_json));
+
+            delete Date.prototype.isEqual;
+            delete Date.prototype.toJSON;
         }
     });
 }).call(this);
