@@ -149,6 +149,17 @@
 
     // Modified polyfill from es5-shim
     // https://github.com/kriskowal/es5-shim/
+    object.getPrototypeOf = (USE_NATIVE && Object.getPrototypeOf)
+                            || function (obj) {
+        return obj.__proto__ || (
+            obj.constructor ? obj.constructor.prototype : _objProto
+        );
+    };
+
+
+
+    // Modified polyfill from es5-shim
+    // https://github.com/kriskowal/es5-shim/
     object.defineProperty = ( USE_NATIVE && 
                               !_buggyDefineProperty &&
                               Object.defineProperty

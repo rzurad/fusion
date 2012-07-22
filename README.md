@@ -27,13 +27,10 @@ Then:
 buster test
 ````
 
-https://github.com/hangex/es5-testsuite
-
 immediate todo:
-- tests for object.create (15.2.3.5)
 - tests for object.defineProperty (15.2.3.6)
 - tests for object.defineProperties (15.2.3.7)
-- add isPrototypeOf test using objects created with our object.create shim
+- tests for object.getPrototypeOf (15.2.3.2)
 - set up and get node tests passing
 - start documenting api (dr.js)
 - add wildcard events

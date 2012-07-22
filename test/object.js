@@ -34,6 +34,65 @@
         }
     });
 
+    //TODO: contribute these back to es5-shim after they've proven to
+    //pass in all env's the es5-shim project supports
+    buster.testCase('object.create tests', {
+        'throws TypeError if first param is not an Object': function () {
+            assert(object.create(null));
+            assert(object.create({}));
+            assert(object.create([]));
+            assert(object.create(/\s/));
+            assert(object.create(function () {}));
+
+            assert.exception(function () { object.create(123); });
+            assert.exception(function () { object.create(void 0); });
+            assert.exception(function () { object.create('str'); });
+            assert.exception(function () { object.create(true); });
+        },
+        'object.create creates a new object': function () {
+            function Base() {}
+
+            var b = new Base();
+
+            assert.same(typeof object.create(new Base()), 'object');
+            assert.same(typeof object.create(null), 'object');
+            assert.same(typeof object.create({}), 'object');
+            assert.same(typeof object.create([]), 'object');
+            assert.same(typeof object.create(/\s/), 'object');
+            assert.same(typeof object.create(function () {}), 'object');
+        },
+        'object.create sets the prototype of the object': function () {
+            var proto = { cylon: true },
+                obj = object.create(proto);
+
+            assert.same(object.getPrototypeOf(obj), proto);
+            assert(proto.isPrototypeOf(obj));
+        },
+        'object.create sets attributes on the new object': function () {
+            var proto = { cylon: true },
+                obj = object.create(proto, {
+                    model: {
+                        value: 6,
+                        writable: false
+                    },
+                    name: {
+                        value: 'Gina',
+                        writable: false
+                    }
+                });
+
+            assert.same(object.getPrototypeOf(obj), proto);
+            assert(proto.isPrototypeOf(obj));
+            assert.same(obj.cylon, true);
+            assert.same(proto.cylon, true);
+            assert.same(obj.name, 'Gina');
+            assert.same(obj.model, 6);
+            refute.defined(proto.model);
+
+            refute.defined(proto.name);
+        }
+    });
+
     buster.testCase('object keys tests', {
         setUp: function () {
             var obj = {
