@@ -11,11 +11,12 @@
 
     var f = this.fusion,
         object = f.object,
+        array = f.array,
         func = f.func,
 
-        keys = f.object.keys,
-        forEach = f.array.forEach,
-        indexOf = f.array.indexOf,
+        keys = object.keys,
+        forEach = array.forEach,
+        indexOf = array.indexOf,
 
         Observable,
 
@@ -63,6 +64,10 @@
             if (!listeners) {
                 return;
             }
+
+            //clone the array in case any observers detach in response to
+            //this notification and change the size of the listeners array
+            listeners = listeners.slice(0);
 
             //beware that there is nothing preventing a subscriber from
             //calling detach in response to an event, meaning the listeners
@@ -199,13 +204,6 @@
             throw new TypeError('argument must be an object');
         }
 
-        //TODO: replace with a framework `mix` function
-        for (key in Observable) {
-            if (Observable.hasOwnProperty(key)) {
-                obj[key] = Observable[key];
-            }
-        }
-
-        return obj;
+        return object.decorate(obj, Observable, true);
     };
 }).call(this);

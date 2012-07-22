@@ -117,6 +117,8 @@
                 reciever[key] = supplier[key];
             }
         });
+
+        return reciever;
     };
 
 

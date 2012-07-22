@@ -79,15 +79,19 @@
                 foo.push(true);
             });
 
+            o.attach('foo', function () { foo.push(true); });
+
             o.once('foo', function () {
                 assert.same(this, obj);
                 foo.push(true);
             }, obj);
 
+            o.attach('foo', function () { foo.push(true); });
+
             o.notify('foo');
             o.notify('foo');
 
-            assert.same(foo.length, 2);
+            assert.same(foo.length, 6);
         },
 
         notifyWithContext: function () {

@@ -37,7 +37,6 @@ immediate todo:
 - Function.prototype.bind shim
 - start documenting api (dr.js)
 - add wildcard events
-- add a more complex detach-while-notifying test
 - f.mixin
 
 not-so-immediate todo:
