@@ -33,7 +33,7 @@ immediate todo:
 - tests for object.create (15.2.3.5)
 - tests for object.defineProperty (15.2.3.6)
 - tests for object.defineProperties (15.2.3.7)
-- add isPrototypeOf shim
+- add isPrototypeOf test using objects created with our object.create shim
 - set up and get node tests passing
 - start documenting api (dr.js)
 - add wildcard events
