@@ -32,6 +32,7 @@ immediate todo:
 - tests for object.defineProperties (15.2.3.7)
 - tests for object.getPrototypeOf (15.2.3.2)
 - set up and get node tests passing
+- Function.prototype.bind shim
 - start documenting api (dr.js)
 - add wildcard events
 - add a more complex detach-while-notifying test
@@ -52,6 +53,7 @@ currently shimmed functions:
 - Object.defineProperties
 - Object.defineProperty
 - Object.create
+- Object.getPrototypeOf
 
 extended functions:
 - Object.isEqual
@@ -64,5 +66,4 @@ will probably need to be shimmed
 - Array.prototype.every
 - Array.prototype.some
 - Array.prototype.lastIndexOf
-- Function.prototype.bind
 - String.prototype.trim

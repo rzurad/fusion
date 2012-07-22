@@ -448,6 +448,7 @@
         );
         !Object.keys && (Object.keys = object.keys);
         !Object.create && (Object.create = object.create);
+        !Object.getPrototypeOf && (Object.getPrototypeOf = object.getPrototypeOf);
 
         if (!Object.defineProperty && _buggyDefineProperty) {
             Object.defineProperty = object.defineProperty;
