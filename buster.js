@@ -1,19 +1,20 @@
 var config = module.exports;
 
 // test everything in the default recommended config
+// currently, order matters in the sources list.
 config['Default'] = {
     env: 'browser',
     sources: [
         'src/fusion.js',
-        'src/object.js',
         'src/array.js',
+        'src/object.js',
         'src/func.js',
         'src/observer.js'
     ],
     tests: [
         'test/fusion.js',
-        'test/object.js',
         'test/array.js',
+        'test/object.js',
         'test/func.js',
         'test/observer.js'
     ]

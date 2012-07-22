@@ -31,14 +31,14 @@ immediate todo:
 - tests for object.defineProperty (15.2.3.6)
 - tests for object.defineProperties (15.2.3.7)
 - tests for object.getPrototypeOf (15.2.3.2)
+- tests for object.merge
+- tests for object.decorate
 - set up and get node tests passing
 - Function.prototype.bind shim
 - start documenting api (dr.js)
 - add wildcard events
 - add a more complex detach-while-notifying test
 - f.mixin
-- f.merge
-- f.decorate
 
 not-so-immediate todo:
 - ajax

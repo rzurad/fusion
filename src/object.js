@@ -11,6 +11,7 @@
 
     var f = this.fusion,
         fProto = f.constructor.prototype,
+        array = f.array,
         object = {},
 
         POLYFILL_NATIVE = f.CONFIG.POLYFILL_NATIVE,
@@ -109,6 +110,29 @@
     };
 
 
+
+    object.decorate = function (reciever, supplier, overwrite) {
+        array.forEach(object.keys(supplier), function (key) {
+            if (!reciever[key] || overwrite) {
+                reciever[key] = supplier[key];
+            }
+        });
+    };
+
+
+
+    object.merge = function () {
+        var result = {}, //returns new object. one argument == shallow copy
+            i,
+            len;
+
+        //right-most argument will overwrite.
+        for (i = 0, len = arguments.length; i < len; i++) {
+            object.decorate(result, arguments[i], true); //TODO: ???
+        }
+
+        return result;
+    };
 
     // Modified polyfill from es5-shim
     // https://github.com/kriskowal/es5-shim/

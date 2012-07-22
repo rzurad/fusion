@@ -6,6 +6,7 @@
     var global = this,
         NOOP = function () { return this; }, 
         f,
+        key,
         prototype = {
             //Follow in the footsteps of all native ECMA5 Objects
             constructor: Fusion,
@@ -97,7 +98,7 @@
 
     Fusion.prototype = prototype;
 
-    //TODO: It would be nice if Fusion wasn't a constructor function and was
+    //It would be nice if Fusion wasn't a constructor function and was
     //instead just an ordinary object that the exposed object `fusion` would
     //simply prototype. All the object shims are not loaded until after this
     //file, so we can't quite do that just yet, since it requires
@@ -121,9 +122,7 @@
 
     //configurable settings the bootstapper will use to determine how
     //it should initialize itself
-    //TODO: merge these two objects, so that they don't need to overwrite
-    //all defaults to overwrite one
-    f.CONFIG = global.FUSION_CONFIG || {
+    f.CONFIG = {
         //for compatability with any library that modifies native prototypes
         USE_NATIVE: true,
 
@@ -134,4 +133,14 @@
         //add custom functions specific to fusion onto native objects
         EXTEND_NATIVE: true
     };
+
+    //if there is a global var named `FUSION_CONFIG`, merge those settings
+    //onto our default, overwriting the defaults
+    //NOTE: can't use object.merge or object.decorate because we haven't
+    //loaded them yet
+    for (key in global.FUSION_CONFIG) {
+        if (global.FUSION_CONFIG.hasOwnProperty(key)) {
+            f.CONFIG[key] = !!global.FUSION_CONFIG[key];
+        }
+    }
 }).call(this);
