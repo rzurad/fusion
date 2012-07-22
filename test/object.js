@@ -36,6 +36,155 @@
 
     //TODO: contribute these back to es5-shim after they've proven to
     //pass in all env's the es5-shim project supports
+    buster.testCase('object.defineProperty tests', {
+        'TypeError if first param is not an object': function () {
+            assert.exception(function () {
+                object.defineProperty(null, 'foo', {});
+            });
+            assert.exception(function () {
+                object.defineProperty(123, 'foo', {});
+            });
+            assert.exception(function () {
+                object.defineProperty(void 0, 'foo', {});
+            });
+            assert.exception(function () {
+                object.defineProperty('asdf', 'foo', {});
+            });
+            assert.exception(function () {
+                object.defineProperty(true, 'foo', {});
+            });
+        },
+
+        'TypeError if desc has `get` and `value` present': function () {
+            var obj = {};
+
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    get: function () { return 1; },
+                    value: 101
+                });
+            });
+            refute.defined(obj.foo);
+        },
+
+        'TypeError if desc has `get` and `writable` present': function () {
+            var obj = {};
+
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    get: function () { return 1; },
+                    writable: false
+                });
+            });
+            refute.defined(obj.foo);
+        },
+
+        'TypeError if desc has `set` and `value` present': function () {
+            var obj = {};
+
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    set: function () {},
+                    value: 101
+                });
+            });
+            refute.defined(obj.foo);
+        },
+
+        'TypeError if desc has `set` and `writable` present': function () {
+            var obj = {};
+
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    set: function () {},
+                    writable: false
+                });
+            });
+            refute.defined(obj.foo);
+        },
+
+        'TypeError if getter is not callable but not undefined': function () {
+            var obj = {};
+
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    get: 42
+                });
+            });
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    get: true
+                });
+            });
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    get: 'asdf',
+                });
+            });
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    get: null
+                });
+            });
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    get: {}
+                });
+            });
+            refute.defined(obj.foo);
+        },
+
+        'TypeError if setter is not callable but not undefined': function () {
+            var obj = {};
+
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    set: 42
+                });
+            });
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    set: true
+                });
+            });
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    set: 'asdf',
+                });
+            });
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    set: null
+                });
+            });
+            assert.exception(function () {
+                object.defineProperty(obj, 'foo', {
+                    set: {}
+                });
+            });
+            refute.defined(obj.foo);
+        },
+
+        'valid legacy descriptor': function () {
+            //in a legacy browser that does not support getters and setters
+            //this is what all properties will be set as, regardless of their
+            //descriptor values other than `value`
+            var obj = {};
+
+            object.defineProperty(obj, 'foo', {
+                value: 'asdf',
+                enumerable: true,
+                writable: true,
+                configurable: true
+            });
+
+            assert.same(obj.foo, 'asdf');
+            assert(object.hasOwnProperty(obj, 'foo'));
+        }
+    });
+
+    //TODO: contribute these back to es5-shim after they've proven to
+    //pass in all env's the es5-shim project supports
     buster.testCase('object.create tests', {
         'throws TypeError if first param is not an Object': function () {
             assert(object.create(null));

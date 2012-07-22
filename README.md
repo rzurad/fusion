@@ -1,34 +1,26 @@
-Testing
-=======
-
 Fusion is currently using [buster.js](http://busterjs.org) for in-browser
 unit testing. The current supported development env is FreeBSD 8.2
 
 ```
 # install node, npm, and buster
+git clone git://github.com/rsb/fusion.git
 git clone git://github.com/joyent/node.git
 cd node
 git checkout v0.8.3
 ./configure
 make
-sudo make install
+sudo gmake install
 sudo npm install -g npm@1.1.44
 sudo npm install -g buster@0.6.2
-```
-
-Once buster is installed, cd to the root of the fusion directory and:
-```
-buster server
-```
-
-Open as many browsers as you want, point them to the buster server and capture.
-Then:
-```
+cd ../fusion
+buster server &
 buster test
-````
+```
+
+TODO
+====
 
 immediate todo:
-- tests for object.defineProperty (15.2.3.6)
 - tests for object.defineProperties (15.2.3.7)
 - tests for object.getPrototypeOf (15.2.3.2)
 - tests for object.merge
