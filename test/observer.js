@@ -9,26 +9,21 @@
     buster.testCase('Observer', {
         setUp: function () {
             this.observable = fusion.makeObservable({});
-            this.subscription = new fusion.Subscription('foo', NOOP);
         },
 
         attachReturnsSubscription: function () {
-            var sub = this.observable.attach('foo', NOOP);
+            var sub = this.observable.attach('foo', NOOP),
+                obj = { fizz: 'buzz' };
 
-            assert(sub instanceof fusion.Subscription);
-        },
-
-        subscriptionInterface: function () {
-            var obj = {},
-                name = 'foo',
-                sub = new fusion.Subscription(name, NOOP, obj);
-
-            assert.same(sub.name, name);
+            //test the Subscription interface
+            assert(fusion.Subscription.isPrototypeOf(sub));
+            assert.same(sub.name, 'foo');
             assert.same(sub.callback, NOOP);
-            assert.same(sub.context, obj);
-            refute.defined(this.subscription.context);
-
             assert.isFunction(sub.notify);
+
+            sub = this.observable.attach('foo', NOOP, obj);
+
+            assert.same(sub.context, obj);
         },
 
         notifyBadCallbacks: function () {

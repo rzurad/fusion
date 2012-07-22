@@ -33,7 +33,7 @@ immediate todo:
 - tests for object.create (15.2.3.5)
 - tests for object.defineProperty (15.2.3.6)
 - tests for object.defineProperties (15.2.3.7)
-- refactor Subscription to be an object, not a constructor function
+- add isPrototypeOf shim
 - set up and get node tests passing
 - start documenting api (dr.js)
 - add wildcard events
