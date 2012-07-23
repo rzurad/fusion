@@ -34,6 +34,66 @@
         }
     });
 
+    buster.testCase('object.getPrototypeOf tests', {
+        'test native': function () {
+            var fnProto = Function.prototype,
+                Base = function () {},
+                Derived = function () {},
+                d;
+
+            Derived.prototype = new Base();
+            d = new Derived();
+
+            assert(object.getPrototypeOf(d).isPrototypeOf(d));
+
+            assert.exception(function () { object.getPrototypeOf(); });
+            assert.exception(function () { object.getPrototypeOf(123); });
+            assert.exception(function () { object.getPrototypeOf(void 0); });
+            assert.exception(function () { object.getPrototypeOf('asdf'); });
+            assert.exception(function () { object.getPrototypeOf(true); });
+
+            assert.same(object.getPrototypeOf(Boolean), fnProto);
+            assert.same(object.getPrototypeOf(Object), fnProto);
+            assert.same(object.getPrototypeOf(Function), fnProto);
+            assert.same(object.getPrototypeOf(Array), fnProto);
+            assert.same(object.getPrototypeOf(String), fnProto);
+            assert.same(object.getPrototypeOf(Number), fnProto);
+            assert.same(object.getPrototypeOf(Math), Object.prototype);
+            assert.same(object.getPrototypeOf(Date), fnProto);
+            assert.same(object.getPrototypeOf(RegExp), fnProto);
+            assert.same(object.getPrototypeOf(Error), fnProto);
+            assert.same(object.getPrototypeOf(EvalError), fnProto);
+            assert.same(object.getPrototypeOf(RangeError), fnProto);
+            assert.same(object.getPrototypeOf(ReferenceError), fnProto);
+            assert.same(object.getPrototypeOf(SyntaxError), fnProto);
+            assert.same(object.getPrototypeOf(TypeError), fnProto);
+            assert.same(object.getPrototypeOf(URIError), fnProto);
+        },
+
+        'test fusion object.create shim': function () {
+            function Base() {}
+            function Derived() {}
+
+            var b = new Base(),
+                d,
+                obj;
+
+            Derived.prototype = b;
+
+            d = new Derived(),
+            obj = object.create(d);
+
+            assert.same(object.getPrototypeOf(obj), d);
+            assert(object.getPrototypeOf(d) instanceof Base);
+            assert.same(object.getPrototypeOf(d), b);
+
+            obj = object.create(Object.prototype);
+
+            assert(object.getPrototypeOf(obj).isPrototypeOf({}));
+            assert.same(object.getPrototypeOf(object.create(null)), null);
+        }
+    });
+
     //TODO: contribute these back to es5-shim after they've proven to
     //pass in all env's the es5-shim project supports
     buster.testCase('object.defineProperty tests', {

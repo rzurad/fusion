@@ -19,7 +19,6 @@ TODO
 ====
 
 immediate todo:
-- tests for object.getPrototypeOf (15.2.3.2)
 - tests for object.merge
 - tests for object.decorate
 - set up and get node tests passing
@@ -35,7 +34,6 @@ not-so-immediate todo:
 - mvc
 - dom selector interface
 - test shims in IE8
-- benchmarks
 
 currently shimmed functions:
 - Array.isArray

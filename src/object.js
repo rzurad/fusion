@@ -177,6 +177,17 @@
     // https://github.com/kriskowal/es5-shim/
     object.getPrototypeOf = (USE_NATIVE && Object.getPrototypeOf)
                             || function (obj) {
+        var badObj = (typeof obj !== 'object' && typeof obj !== 'function')
+                     || obj === null;
+
+        if (badObj) {
+            throw new TypeError('object.getPrototypeOf called on non-object');
+        }
+
+        if (obj.__proto__ === null) {
+            return null;
+        }
+
         return obj.__proto__ || (
             obj.constructor ? obj.constructor.prototype : _objProto
         );
