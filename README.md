@@ -7,8 +7,6 @@ git clone git://github.com/rsb/fusion.git
 git clone git://github.com/joyent/node.git
 cd node
 git checkout v0.8.3
-./configure
-make
 sudo gmake install
 sudo npm install -g npm@1.1.44
 sudo npm install -g buster@0.6.2
@@ -21,7 +19,6 @@ TODO
 ====
 
 immediate todo:
-- tests for object.defineProperties (15.2.3.7)
 - tests for object.getPrototypeOf (15.2.3.2)
 - tests for object.merge
 - tests for object.decorate
@@ -32,9 +29,13 @@ immediate todo:
 - f.mixin
 
 not-so-immediate todo:
+- add index-shifting to observers
+- add EventFacade to observer module
 - ajax
 - mvc
 - dom selector interface
+- test shims in IE8
+- benchmarks
 
 currently shimmed functions:
 - Array.isArray

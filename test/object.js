@@ -183,6 +183,32 @@
         }
     });
 
+    buster.testCase('object.defineProperties tests', {
+        exists: function () {
+            var obj = {};
+
+            object.defineProperties(obj, {
+                foo: {
+                    value: 'bar',
+                    enumerable: true,
+                    writable: true,
+                    configurable: true
+                },
+                fizz: {
+                    value: 'buzz',
+                    enumerable: true,
+                    writable: true,
+                    configurable: true
+                }
+            });
+
+            assert.same(obj.foo, 'bar');
+            assert.same(obj.fizz, 'buzz');
+            assert(object.hasOwnProperty(obj, 'fizz'));
+            assert(object.hasOwnProperty(obj, 'foo'));
+        }
+    });
+
     //TODO: contribute these back to es5-shim after they've proven to
     //pass in all env's the es5-shim project supports
     buster.testCase('object.create tests', {
