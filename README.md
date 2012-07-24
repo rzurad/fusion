@@ -25,9 +25,9 @@ immediate todo:
 - Function.prototype.bind shim
 - start documenting api (dr.js)
 - add wildcard events
-- f.mixin
 
 not-so-immediate todo:
+- f.mixin
 - add index-shifting to observers
 - add EventFacade to observer module
 - ajax

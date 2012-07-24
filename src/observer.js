@@ -20,38 +20,40 @@
 
         Observable,
 
-        /**
-         * Subscription object. Common object returned by Observables
-         * after attaching a observer function that provides an interface to
-         * notify its observer and check if the notification callback
-         * threw an error.
-         */
-        Subscription = {
-            notify: function (args) {
-                this.callback.call(this.context, args);
-            }
-        },
-
-        _createSubscription = function (name, callback, context) {
-            if (typeof name !== 'string') {
-                throw new TypeError('Subscription requires string name');
-            }
-
-            if (!func.isFunction(callback)) {
-                throw new TypeError ('Subscription requires callback function');
-            }
-
-            var sub = object.create(Subscription);
-
-            sub.name = name;
-            sub.callback = callback;
-            sub.context = context;
-
-            return sub;
-        },
-
         fProto = f.constructor.prototype;
 
+    /**
+     * Returns and new Subscription. Common object returned by Observables
+     * after attaching a observer function that provides an interface to
+     * notify its observerd. Observables will attach the error object as `name`
+     * if one is thrown by the callback.
+     */
+    function Subscription(name, callback, context) {
+        if (typeof name !== 'string') {
+            throw new TypeError('Subscription requires string name');
+        }
+
+        if (!func.isFunction(callback)) {
+            throw new TypeError ('Subscription requires callback function');
+        }
+
+        var obj = object.create(Subscription.prototype);
+
+        obj.name = name;
+        obj.callback = callback;
+        obj.context = context;
+
+        return obj;
+    }
+
+    Subscription.prototype = {
+        constructor: Subscription,
+
+        //notify callback
+        notify: function (args) {
+            this.callback.call(this.context, args);
+        }
+    };
 
     Observable = {
         notify: function (name, args) {
@@ -69,12 +71,8 @@
             //this notification and change the size of the listeners array
             listeners = listeners.slice(0);
 
-            //beware that there is nothing preventing a subscriber from
-            //calling detach in response to an event, meaning the listeners
-            //array can change while we are iterating. this forEach protects
-            //against that.
             forEach(listeners, function (subscription) {
-                if (Subscription.isPrototypeOf(subscription)) {
+                if (subscription instanceof Subscription) {
                     try {
                         subscription.notify({ args: args });
                         subscription.error = null;
@@ -101,7 +99,7 @@
             var observers = this._observers || (this._observers = {}),
                 listeners = observers[name] || (observers[name] = []),
                 context = context || this,
-                subscription = _createSubscription(name, callback, context);
+                subscription = Subscription(name, callback, context);
 
             listeners.push(subscription);
 
@@ -125,7 +123,7 @@
         detach: function (arg) {
             var observers = this._observers || (this._observers = {}),
                 listeners,
-                subscription = Subscription.isPrototypeOf(arg) ? arg : void 0,
+                subscription = arg instanceof Subscription ? arg : void 0,
                 str = typeof arg === 'string' ? arg : void 0,
                 index, key;
 
@@ -133,7 +131,7 @@
                 //no args detaches everything
                 forEach(keys(observers), function (key) {
                     forEach(observers[key], function (sub) {
-                        if (Subscription.isPrototypeOf(sub)) {
+                        if (sub instanceof Subscription) {
                             sub.detached = true;
                         }
                     });

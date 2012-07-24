@@ -16,7 +16,7 @@
                 obj = { fizz: 'buzz' };
 
             //test the Subscription interface
-            assert(fusion.Subscription.isPrototypeOf(sub));
+            assert(sub instanceof fusion.Subscription);
             assert.same(sub.name, 'foo');
             assert.same(sub.callback, NOOP);
             assert.isFunction(sub.notify);
