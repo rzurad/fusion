@@ -19,17 +19,15 @@ TODO
 ====
 
 immediate todo:
-- tests for object.merge
-- tests for object.decorate
+- figure out what's to be done with merge and decorate
 - set up and get node tests passing
 - Function.prototype.bind shim
 - start documenting api (dr.js)
 - add wildcard events
 
 not-so-immediate todo:
-- f.mixin
 - add index-shifting to observers
-- add EventFacade to observer module
+- add some kind of wrapper event to observer module
 - ajax
 - mvc
 - dom selector interface
