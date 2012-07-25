@@ -188,6 +188,14 @@
             return null;
         }
 
+        // Firefox 12 & 13 bug where:
+        //  obj.__proto__ = null;
+        //  typeof obj.__proto__ === 'undefined';
+        // Firefox reports null prototypes as undefined, which kinda sucks
+        if (typeof obj.__proto__ === 'undefined' && ({}).__proto__) {
+            return null;
+        }
+
         return obj.__proto__ || (
             obj.constructor ? obj.constructor.prototype : _objProto
         );
