@@ -19,8 +19,8 @@ TODO
 ====
 
 immediate todo:
+- fix failing test in IE 9
 - figure out what's to be done with merge and decorate
-- set up and get node tests passing
 - Function.prototype.bind shim
 - start documenting api (dr.js)
 - add wildcard events
@@ -31,7 +31,7 @@ not-so-immediate todo:
 - ajax
 - mvc
 - dom selector interface
-- test shims in IE8
+- test in as many legacy browsers as possible
 
 currently shimmed functions:
 - Array.isArray

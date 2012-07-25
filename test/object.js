@@ -99,10 +99,15 @@
 
             Derived.prototype = b;
 
+            // the importance of the constructor property can NOT be
+            // overstated if you want to support IE
+            Derived.prototype.constructor = Derived;
+
             d = new Derived(),
             obj = object.create(d);
 
             assert.same(object.getPrototypeOf(obj), d);
+
             assert(object.getPrototypeOf(d) instanceof Base);
             assert.same(object.getPrototypeOf(d), b);
 
@@ -663,6 +668,13 @@
                 },
                 proto, obj1, obj2, obj3;
 
+            obj1 = object.create({ so: 'what' }, configSimple1);
+            obj2 = object.create({ so: 'buttons' }, configSimple1);
+            obj3 = object.create({ so: 'what' }, configSimple2);
+
+            assert(object.isEqual(obj1, obj2)); //TODO: Fix for IE 9
+            refute(object.isEqual(obj1, obj3));
+
             proto = null;
             obj1 = object.create(proto, configSimple1);
             obj2 = object.create(proto, configSimple1);
@@ -670,19 +682,12 @@
 
             assert(object.isEqual(obj1, obj2));
             refute(object.isEqual(obj1, obj3));
-            refute(obj1 === obj2); //TODO: this belongs in an object.create test
+            refute(obj1 === obj2);
 
             proto = Object.prototype;
             obj1 = object.create(proto, configSimple1);
             obj2 = object.create(proto, configSimple1);
             obj3 = object.create(proto, configSimple2);
-
-            assert(object.isEqual(obj1, obj2));
-            refute(object.isEqual(obj1, obj3));
-
-            obj1 = object.create({ so: 'what' }, configSimple1);
-            obj2 = object.create({ so: 'buttons' }, configSimple1);
-            obj3 = object.create({ so: 'what' }, configSimple2);
 
             assert(object.isEqual(obj1, obj2));
             refute(object.isEqual(obj1, obj3));
