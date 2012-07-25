@@ -1,8 +1,8 @@
 (function () {
     "use strict";
 
-    var fusion = this.fusion || require('fusion'),
-        buster = this.buster || require('buster'),
+    var fusion = this.fusion,
+        buster = this.buster,
         object = fusion.object,
         array = fusion.array;
 

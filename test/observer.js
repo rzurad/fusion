@@ -1,8 +1,8 @@
 (function () {
     "use strict";
 
-    var buster = this.buster || require('buster'),
-        fusion = this.fusion || require('fusion'),
+    var buster = this.buster,
+        fusion = this.fusion,
 
         NOOP = function () {};
 

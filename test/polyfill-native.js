@@ -2,8 +2,8 @@
     "use strict";
 
     var global = this,
-        fusion = global.fusion || require('fusion'),
-        buster = global.buster || require('buster'),
+        fusion = global.fusion,
+        buster = global.buster,
         forEach = fusion.array.forEach,
         keys = fusion.object.keys,
 
