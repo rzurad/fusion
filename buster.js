@@ -4,6 +4,8 @@ var config = module.exports;
 // currently, order matters in the sources list.
 config['Default'] = {
     env: 'browser',
+
+    // the files need to be in their proper build order
     sources: [
         'src/fusion.js',
         'src/array.js',
