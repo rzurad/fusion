@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 (function () {
     "use strict";
 
@@ -19,7 +21,12 @@
     ast = uglify.ast_mangle(ast);
     ast = uglify.ast_squeeze(ast);
 
-    fs.writeFile('./fusion-min.js', uglify.gen_code(ast), function (err) {
+    // uglify strips the last semicolon, which can cause issues if the
+    // generated min file is then concactenated with another file through
+    // a minifier, so we add it back for safety
+    data = uglify.gen_code(ast) + ';';
+
+    fs.writeFile('./fusion-min.js', data, function (err) {
         if (err) {
             console.log('Error writing to fusion-min.js');
             process.exit(1);

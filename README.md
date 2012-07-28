@@ -21,7 +21,7 @@ buster server &
 buster test
 
 #build min file
-node build.js
+./build
 ```
 
 TODO
