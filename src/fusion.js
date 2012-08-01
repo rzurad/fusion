@@ -4,7 +4,8 @@
     function Fusion () {}
 
     var global = this,
-        NOOP = function () { return this; }, 
+        NOOP_CHAIN = function () { return this; }, 
+        NOOP = function () {},
         f,
         key,
         prototype = {
@@ -81,11 +82,13 @@
             },
 
             /**
-             * Empty function
+             * Empty function that returns the context it was called in
              *
              * @method: NOOP
              * @return {Object}
              */
+            NOOP_CHAIN: NOOP_CHAIN,
+
             NOOP: NOOP,
 
             logger: global.console || {

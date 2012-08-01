@@ -101,6 +101,10 @@
                 context = context || this,
                 subscription = Subscription(name, callback, context);
 
+            subscription.detach = func.bind(function () {
+                this.detach(subscription);
+            }, this);
+
             listeners.push(subscription);
 
             return subscription;
@@ -172,7 +176,7 @@
         },
 
         hasObserver: function (subscription) {
-            if (!subscription) {
+            if (!(subscription instanceof Subscription)) {
                 return false;
             }
 
