@@ -30,7 +30,6 @@ TODO
 immediate todo:
 - fix failing test in IE 9
 - figure out what's to be done with merge and decorate
-- Function.prototype.bind shim
 - start documenting api (dr.js)
 - add wildcard events
 - add `detach` function to subscription objects
@@ -47,6 +46,7 @@ currently shimmed functions:
 - Array.isArray
 - Array.prototype.indexOf
 - Array.prototype.forEach
+- Function.prototype.bind
 - Object.keys
 - Object.defineProperties
 - Object.defineProperty
