@@ -17,7 +17,20 @@
         data.push(fs.readFileSync(file, 'ascii'));
     });
 
-    ast = parser.parse(data.join(''));
+    data = data.join('');
+
+    // generate the uncompressed, concatenated file
+    fs.writeFile('./fusion.js', data, function (err) {
+        if (err) {
+            console.log('Error writing to fusion.js');
+            process.exit(1);
+        }
+
+        console.log('Generated ./fusion.js');
+    });
+
+    // generate the compressed -min file
+    ast = parser.parse(data);
     ast = uglify.ast_mangle(ast);
     ast = uglify.ast_squeeze(ast);
 
@@ -32,6 +45,6 @@
             process.exit(1);
         }
 
-        console.log('Done.');
+        console.log('Generated ./fusion-min.js');
     });
 }());
