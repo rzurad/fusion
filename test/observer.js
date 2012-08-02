@@ -185,6 +185,21 @@
             assert.same(bar.length, 1);
         },
 
+        detachViaSubscription: function () {
+            var o = this.observable,
+                foo = [],
+                sub = o.attach('foo', function () { foo.push(true); });
+
+            o.notify('foo');
+
+            assert.same(foo.length, 1);
+
+            sub.detach();
+            o.notify('foo');
+
+            assert.same(foo.length, 1);
+        },
+
         detachAll: function () {
             var o = this.observable,
                 foo = [],
@@ -193,6 +208,8 @@
                 sub2 = o.attach('bar', function () { bar.push(true); });
 
             o.detach();
+            o.notify('foo');
+            o.notify('bar');
 
             assert(sub1.detached);
             assert(sub2.detached);

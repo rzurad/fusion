@@ -32,7 +32,6 @@ immediate todo:
 - figure out what's to be done with merge and decorate
 - start documenting api (dr.js)
 - add wildcard events
-- add `detach` function to subscription objects
 
 not-so-immediate todo:
 - add index-shifting to observers
