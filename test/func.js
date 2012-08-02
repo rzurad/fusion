@@ -80,7 +80,6 @@
             assert.same(context, function () { return this; }.call());
         },
 
-        
         'returns properly with no context and bound arguments': function () {
             var context,
                 fn = func.bind(function () {

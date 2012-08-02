@@ -11,7 +11,9 @@
 
     var f = this.fusion,
         fProto = f.constructor.prototype,
-        object = f.object,
+
+        _toString = Object.prototype.toString,
+
         func = {},
 
         USE_NATIVE = f.CONFIG.USE_NATIVE,
@@ -60,7 +62,7 @@
         };
 
     func.isFunction = function (obj) {
-        return object.toString(obj) === '[object Function]';
+        return _toString.call(obj) === '[object Function]';
     };
 
     func.bind = function (fn, context) {

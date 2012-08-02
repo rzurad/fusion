@@ -12,6 +12,7 @@
     var f = this.fusion,
         fProto = f.constructor.prototype,
         array = f.array,
+        func = f.func,
         object = {},
 
         POLYFILL_NATIVE = f.CONFIG.POLYFILL_NATIVE,
@@ -82,10 +83,10 @@
 
 
     if (_supportsAccessors) {
-        _defineGetter = call.bind(_objProto.__defineGetter__);
-        _defineSetter = call.bind(_objProto.__defineSetter__);
-        _lookupGetter = call.bind(_objProto.__lookupGetter__);
-        _lookupSetter = call.bind(_objProto.__lookupSetter__);
+        _defineGetter = func.bind(_call, _objProto.__defineGetter__);
+        _defineSetter = func.bind(_call, _objProto.__defineSetter__);
+        _lookupGetter = func.bind(_call, _objProto.__lookupGetter__);
+        _lookupSetter = func.bind(_call, _objProto.__lookupSetter__);
     }
 
     // in the world of fusion, we say it's ok if you want to modify

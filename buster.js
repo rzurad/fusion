@@ -9,9 +9,9 @@ config['Default'] = {
     sources: [
         'src/fusion.js',
         'src/array.js',
-        'src/object.js',
         'src/func.js',
-        'src/observer.js'
+        'src/object.js', //depends on: f.func, f.array
+        'src/observer.js' //depends on: f.func, f.array, f.object
     ],
     tests: [
         'test/fusion.js',
