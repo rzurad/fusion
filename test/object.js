@@ -672,7 +672,7 @@
             obj2 = object.create({ so: 'buttons' }, configSimple1);
             obj3 = object.create({ so: 'what' }, configSimple2);
 
-            assert(object.isEqual(obj1, obj2)); //TODO: Fix for IE 9
+            assert(object.isEqual(obj1, obj2));
             refute(object.isEqual(obj1, obj3));
 
             proto = null;

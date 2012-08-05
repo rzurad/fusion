@@ -445,15 +445,11 @@
                 return false;
             }
 
-            if (a[__PROTO__] != a[__PROTO__]) {
-                return false;
-            }
-
             // Deep compare objects.
             for (key in a) {
-                if (object.hasOwnProperty(a, key)) {
+                if (object.hasOwnProperty(a, key) && key !== __PROTO__) {
                     // Count the expected number of properties.
-                    size++;
+                    size++
 
                     // Deep compare each memeber.
                     result = object.hasOwnProperty(b, key) &&
@@ -468,7 +464,8 @@
             // Ensure that both objects contain the same number of properties.
             if (result) {
                 for (key in b) {
-                    if (object.hasOwnProperty(b, key) && !(size--)) {
+                    if (object.hasOwnProperty(b, key) && key !== __PROTO__ &&
+                                                         !(size--)) {
                         break;
                     }
                 }

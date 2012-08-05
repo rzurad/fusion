@@ -1,6 +1,3 @@
-Using a few of the ES5 methods is better than not being able to use any of them
-because of having to continuously cater to the lowest common denominator.
-
 Fusion is currently using [buster.js](http://busterjs.org) for in-browser
 unit testing. It is compressed using uglify-js. The current supported development env is FreeBSD 8.2
 
@@ -28,14 +25,11 @@ TODO
 ====
 
 immediate todo:
-- fix failing test in IE 9
 - figure out what's to be done with merge and decorate
 - start documenting api (dr.js)
 - add wildcard events
 
 not-so-immediate todo:
-- add index-shifting to observers
-- add some kind of wrapper event to observer module
 - ajax
 - mvc
 - dom selector interface
