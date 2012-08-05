@@ -45,6 +45,7 @@ currently shimmed functions:
 - Object.defineProperty
 - Object.create
 - Object.getPrototypeOf
+- String.prototype.trim
 
 extended functions:
 - Object.isEqual
@@ -57,4 +58,3 @@ will probably need to be shimmed
 - Array.prototype.every
 - Array.prototype.some
 - Array.prototype.lastIndexOf
-- String.prototype.trim

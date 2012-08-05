@@ -8,6 +8,7 @@ config['Default'] = {
     // the files need to be in their proper build order
     sources: [
         'src/fusion.js',
+        'src/string.js',
         'src/array.js',
         'src/func.js',
         'src/object.js', //depends on: f.func, f.array
@@ -15,6 +16,7 @@ config['Default'] = {
     ],
     tests: [
         'test/fusion.js',
+        'test/string.js',
         'test/array.js',
         'test/object.js',
         'test/func.js',
