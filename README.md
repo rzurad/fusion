@@ -25,9 +25,12 @@ TODO
 ====
 
 immediate todo:
+- add object.lookup(obj, path, def);
+- Exception test cases for f.string.trim
 - figure out what's to be done with merge and decorate
 - start documenting api (dr.js)
 - add wildcard events
+- patch buster.js to be able to test in IE7 and 8
 
 not-so-immediate todo:
 - ajax

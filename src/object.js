@@ -106,7 +106,7 @@
     // modified Object.prototype.hasOwnProperty before you loaded fusion! In
     // that case, you've got us cornered! it's a fair cop! never have we been
     // bested by an individual as cunning and brutal as yourself!)
-    object.hasOwnProperty = function (obj, key) {
+    object.owns = function (obj, key) {
         return _hasOwnProperty.call(obj, key);
     };
 
@@ -152,7 +152,7 @@
         }
 
         for (name in obj) {
-            if (object.hasOwnProperty(obj, name) && name !== __PROTO__) {
+            if (object.owns(obj, name) && name !== __PROTO__) {
                 keys.push(name);
             }
         }
@@ -163,7 +163,7 @@
             for (i = 0; i < _dontEnumsLength; i++) {
                 dontEnum = _dontEnums[i];
 
-                if (object.hasOwnProperty(obj, dontEnum)) {
+                if (object.owns(obj, dontEnum)) {
                     keys.push(dontEnum);
                 }
             }
@@ -234,7 +234,7 @@
         }
 
         // if it's a data property
-        if (object.hasOwnProperty(desc, 'value')) {
+        if (object.owns(desc, 'value')) {
             if (supportsAccessors && ( lookupGetter(obj, prop) || 
                                        lookupSetter(obj, prop)
                                      )) {
@@ -263,11 +263,11 @@
             }
 
             //if we get this far, then we can use getters and setters
-            if (object.hasOwnProperty(desc, 'get')) {
+            if (object.owns(desc, 'get')) {
                 defineGetter(obj, prop, desc.get);
             }
 
-            if (object.hasOwnProperty(obj, 'set')) {
+            if (object.owns(obj, 'set')) {
                 defineSetter(obj, prop, desc.set);
             }
         }
@@ -282,7 +282,7 @@
     object.defineProperties = (USE_NATIVE && Object.defineProperties) ||
                               function (obj, props) {
         for (var prop in props) {
-            if (object.hasOwnProperty(props, prop) && prop !== __PROTO__) {
+            if (object.owns(props, prop) && prop !== __PROTO__) {
                 object.defineProperty(obj, prop, props[prop]);
             }
         }
@@ -447,13 +447,12 @@
 
             // Deep compare objects.
             for (key in a) {
-                if (object.hasOwnProperty(a, key) && key !== __PROTO__) {
+                if (object.owns(a, key) && key !== __PROTO__) {
                     // Count the expected number of properties.
                     size++
 
                     // Deep compare each memeber.
-                    result = object.hasOwnProperty(b, key) &&
-                             eq(a[key], b[key], stack);
+                    result = object.owns(b, key) && eq(a[key], b[key], stack);
 
                     if (!result) {
                         break;
@@ -464,8 +463,7 @@
             // Ensure that both objects contain the same number of properties.
             if (result) {
                 for (key in b) {
-                    if (object.hasOwnProperty(b, key) && key !== __PROTO__ &&
-                                                         !(size--)) {
+                    if (object.owns(b, key) && key !== __PROTO__ && !(size--)) {
                         break;
                     }
                 }

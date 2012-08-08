@@ -20,17 +20,17 @@
         }
     });
 
-    buster.testCase('stashed object.hasOwnProperty tests', {
+    buster.testCase('stashed object.owns tests', {
         exists: function () {
             var proto = { type: 'battlestar' },
                 obj = object.create(proto);
 
             obj.name = 'galactica';
 
-            assert(object.hasOwnProperty(obj, 'name'));
+            assert(object.owns(obj, 'name'));
             assert.same(obj.type, 'battlestar');
 
-            refute(object.hasOwnProperty(obj, 'type'));
+            refute(object.owns(obj, 'type'));
         }
     });
 
@@ -263,7 +263,7 @@
             });
 
             assert.same(obj.foo, 'asdf');
-            assert(object.hasOwnProperty(obj, 'foo'));
+            assert(object.owns(obj, 'foo'));
         }
     });
 
@@ -288,8 +288,8 @@
 
             assert.same(obj.foo, 'bar');
             assert.same(obj.fizz, 'buzz');
-            assert(object.hasOwnProperty(obj, 'fizz'));
-            assert(object.hasOwnProperty(obj, 'foo'));
+            assert(object.owns(obj, 'fizz'));
+            assert(object.owns(obj, 'foo'));
         }
     });
 
@@ -378,7 +378,7 @@
 
         'returns own property names': function () {
             array.forEach(this.keys, function (key) {
-                assert(this.obj.hasOwnProperty(key));
+                assert(object.owns(this.obj, key));
             }, this);
         },
 
