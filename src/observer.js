@@ -194,6 +194,10 @@
         }
     };
 
+    //add aliases
+    Observable.off = Observable.detach;
+    Observable.on = Observable.attach;
+
     //add to fusion prototype
     fProto.Subscription = Subscription;
     fProto.Observable = Observable;

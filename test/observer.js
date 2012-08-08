@@ -6,6 +6,13 @@
 
         NOOP = function () {};
 
+    buster.testCase('Observer aliases', {
+        test: function () {
+            assert.same(fusion.Observable.attach, fusion.Observable.on);
+            assert.same(fusion.Observable.detach, fusion.Observable.off);
+        }
+    });
+
     buster.testCase('Observer', {
         setUp: function () {
             this.observable = fusion.makeObservable({});
